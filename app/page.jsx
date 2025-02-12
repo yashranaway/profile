@@ -1,6 +1,6 @@
 "use client"
 
-import { Moon, Sun, Html5, Css3, Cplusplus, Java, Javascript, PuzzlePiece } from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -13,8 +13,10 @@ import {
   FileCode,
   FileType,
   Coffee,
+  CodepenIcon as Javascript,
   Users,
   Brain,
+  Puzzle,
 } from "lucide-react"
 
 export default function Page() {
@@ -64,16 +66,16 @@ export default function Page() {
           <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white">Technical Skills</h2>
           <div className="flex flex-wrap gap-4 justify-center">
             {[
-              { name: "HTML", icon: <Html5 className="w-5 h-5" /> },
-              { name: "CSS", icon: <Css3 className="w-5 h-5" /> },
+              { name: "HTML", icon: <FileCode className="w-5 h-5" /> },
+              { name: "CSS", icon: <Paintbrush className="w-5 h-5" /> },
               { name: "C", icon: <Code className="w-5 h-5" /> },
-              { name: "C++", icon: <Cplusplus className="w-5 h-5" /> },
+              { name: "C++", icon: <Code className="w-5 h-5" /> },
               { name: "Python", icon: <FileType className="w-5 h-5" /> },
               { name: "Java", icon: <Coffee className="w-5 h-5" /> },
               { name: "JavaScript", icon: <Javascript className="w-5 h-5" /> },
               { name: "Teamwork", icon: <Users className="w-5 h-5" /> },
               { name: "Analytical Thinking", icon: <Brain className="w-5 h-5" /> },
-              { name: "Problem-Solving", icon: <PuzzlePiece className="w-5 h-5" /> },
+              { name: "Problem-Solving", icon: <Puzzle className="w-5 h-5" /> },
             ].map((skill) => (
               <Badge key={skill.name} variant="secondary" className="text-sm flex items-center px-3 py-1">
                 {skill.icon}
