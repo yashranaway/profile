@@ -11,8 +11,7 @@ import {
   Code,
   Paintbrush,
   FileCode,
-  Cpu,
-  PiIcon as Python,
+  FileType,
   Coffee,
   CodepenIcon as Javascript,
   Users,
@@ -65,22 +64,22 @@ export default function Page() {
         {/* Skills Section */}
         <section className="space-y-8">
           <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white">Technical Skills</h2>
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="flex flex-wrap gap-4 justify-center">
             {[
-              { name: "HTML", icon: <FileCode className="w-4 h-4 mr-1" /> },
-              { name: "CSS", icon: <Paintbrush className="w-4 h-4 mr-1" /> },
-              { name: "C", icon: <Code className="w-4 h-4 mr-1" /> },
-              { name: "C++", icon: <Cpu className="w-4 h-4 mr-1" /> },
-              { name: "Python", icon: <Python className="w-4 h-4 mr-1" /> },
-              { name: "Java", icon: <Coffee className="w-4 h-4 mr-1" /> },
-              { name: "JavaScript", icon: <Javascript className="w-4 h-4 mr-1" /> },
-              { name: "Teamwork", icon: <Users className="w-4 h-4 mr-1" /> },
-              { name: "Analytical Thinking", icon: <Brain className="w-4 h-4 mr-1" /> },
-              { name: "Problem-Solving", icon: <Puzzle className="w-4 h-4 mr-1" /> },
+              { name: "HTML", icon: <FileCode className="w-5 h-5" /> },
+              { name: "CSS", icon: <Paintbrush className="w-5 h-5" /> },
+              { name: "C", icon: <Code className="w-5 h-5" /> },
+              { name: "C++", icon: <Code className="w-5 h-5" /> },
+              { name: "Python", icon: <FileType className="w-5 h-5" /> },
+              { name: "Java", icon: <Coffee className="w-5 h-5" /> },
+              { name: "JavaScript", icon: <Javascript className="w-5 h-5" /> },
+              { name: "Teamwork", icon: <Users className="w-5 h-5" /> },
+              { name: "Analytical Thinking", icon: <Brain className="w-5 h-5" /> },
+              { name: "Problem-Solving", icon: <Puzzle className="w-5 h-5" /> },
             ].map((skill) => (
-              <Badge key={skill.name} variant="secondary" className="text-sm flex items-center">
+              <Badge key={skill.name} variant="secondary" className="text-sm flex items-center px-3 py-1">
                 {skill.icon}
-                {skill.name}
+                <span className="ml-2">{skill.name}</span>
               </Badge>
             ))}
           </div>
