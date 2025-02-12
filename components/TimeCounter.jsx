@@ -34,3 +34,4 @@ const TimeCounter = ({ startDate }) => {
 }
 
 export default TimeCounter
+

@@ -1,6 +1,6 @@
 "use client"
 
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, Html5, Css3, Cplusplus, Java, Javascript, PuzzlePiece } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -13,10 +13,8 @@ import {
   FileCode,
   FileType,
   Coffee,
-  CodepenIcon as Javascript,
   Users,
   Brain,
-  Puzzle,
 } from "lucide-react"
 
 export default function Page() {
@@ -167,4 +165,3 @@ export default function Page() {
     </div>
   )
 }
-
