@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 
 const TimeCounter = ({ startDate }) => {
@@ -14,12 +12,13 @@ const TimeCounter = ({ startDate }) => {
       const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
       const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
       const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+      const years = Math.floor(days / 365)
+      const remainingDays = days % 365
 
       setTimeElapsed(
-        `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`,
+        `${years} years, ${remainingDays} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`,
       )
     }
-
     updateCounter()
     const intervalId = setInterval(updateCounter, 1000)
 

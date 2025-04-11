@@ -1,26 +1,22 @@
 "use client"
 
-import { Moon, Sun } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { useTheme } from "next-themes"
+import { Sun, Moon } from "lucide-react"
 import TimeCounter from "@/components/TimeCounter"
-import {
-  Code,
-  Paintbrush,
-  FileCode,
-  FileType,
-  Coffee,
-  CodepenIcon as Javascript,
-  Users,
-  Brain,
-  Puzzle,
-} from "lucide-react"
+import { CodeXml, Palette, Binary, Package, Coffee, SquareCode, Orbit, ShieldCheck } from "lucide-react"
+import { File } from "lucide-react"
 
 export default function Page() {
   const { theme, setTheme } = useTheme()
+
+  const iconSize = {
+    width: 20,
+    height: 20,
+  }
 
   return (
     <div className="min-h-screen bg-white text-zinc-900 transition-colors duration-300 dark:bg-black dark:text-zinc-100">
@@ -43,10 +39,7 @@ export default function Page() {
         {/* Hero Section */}
         <section className="space-y-4">
           <h1 className="text-4xl md:text-6xl font-bold text-zinc-900 dark:text-white">Hi, I&apos;m Aditya.</h1>
-          <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto">
-            Dynamic Event Manager & Technical Team Member at TekLingo, with expertise in aligning event strategies with
-            technological advancements.
-          </p>
+          <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto">Technical Lead at TekLingo</p>
           <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto">
             Currently in{" "}
             <a
@@ -66,16 +59,15 @@ export default function Page() {
           <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white">Technical Skills</h2>
           <div className="flex flex-wrap gap-4 justify-center">
             {[
-              { name: "HTML", icon: <FileCode className="w-5 h-5" /> },
-              { name: "CSS", icon: <Paintbrush className="w-5 h-5" /> },
-              { name: "C", icon: <Code className="w-5 h-5" /> },
-              { name: "C++", icon: <Code className="w-5 h-5" /> },
-              { name: "Python", icon: <FileType className="w-5 h-5" /> },
+              { name: "HTML", icon: <CodeXml className="w-5 h-5" /> },
+              { name: "CSS", icon: <Palette className="w-5 h-5" /> },
+              { name: "C", icon: <Binary className="w-5 h-5" /> },
+              { name: "C++", icon: <Binary className="w-5 h-5" /> },
+              { name: "Python", icon: <Package className="w-5 h-5" /> },
               { name: "Java", icon: <Coffee className="w-5 h-5" /> },
-              { name: "JavaScript", icon: <Javascript className="w-5 h-5" /> },
-              { name: "Teamwork", icon: <Users className="w-5 h-5" /> },
-              { name: "Analytical Thinking", icon: <Brain className="w-5 h-5" /> },
-              { name: "Problem-Solving", icon: <Puzzle className="w-5 h-5" /> },
+              { name: "JavaScript", icon: <SquareCode className="w-5 h-5" /> },
+              { name: "React", icon: <Orbit className="w-5 h-5" /> },
+              { name: "Rust", icon: <ShieldCheck className="w-5 h-5" /> },
             ].map((skill) => (
               <Badge key={skill.name} variant="secondary" className="text-sm flex items-center px-3 py-1">
                 {skill.icon}
@@ -92,7 +84,7 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <h3 className="text-xl font-medium text-zinc-900 dark:text-white md:text-right">TekLingo, VU</h3>
               <div className="md:col-span-2 md:text-left">
-                <p className="text-lg text-zinc-400">Event Manager & Technical Team Member</p>
+                <p className="text-lg text-zinc-400">Technical Lead</p>
                 <p className="text-sm text-zinc-500">Present</p>
               </div>
             </div>
@@ -100,7 +92,7 @@ export default function Page() {
               <h3 className="text-xl font-medium text-zinc-900 dark:text-white md:text-right">Visionary Club</h3>
               <div className="md:col-span-2 md:text-left">
                 <p className="text-lg text-zinc-400">Technical Team Member</p>
-                <p className="text-sm text-zinc-500">2023-Present</p>
+                <p className="text-sm text-zinc-500">2023 - Present</p>
               </div>
             </div>
           </div>
@@ -108,7 +100,7 @@ export default function Page() {
 
         {/* Projects Section */}
         <section className="space-y-8">
-          <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white">Featured Projects</h2>
+          <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white">Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               {
