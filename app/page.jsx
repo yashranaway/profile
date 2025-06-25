@@ -52,6 +52,15 @@ export default function Page() {
             </a>{" "}
             for <TimeCounter startDate={new Date("2023-08-01")} />
           </p>
+          <a
+            href="https://coff.ee/yashranaway"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-zinc-900 dark:text-white hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+          >
+            <Coffee className="h-5 w-5" />
+            <span>Buy me a coffee</span>
+          </a>
         </section>
 
         {/* Skills Section */}
