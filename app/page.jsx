@@ -9,6 +9,7 @@ import { Sun, Moon, Heart } from "lucide-react"
 import { useState, useEffect } from "react"
 import LoadingScreen from "@/components/LoadingScreen"
 import { SkillsSectionSkeleton, ProjectCardSkeleton } from "@/components/SkeletonCard"
+import ClickSpark from "@/components/ClickSpark"
 import TimeCounter from "@/components/TimeCounter"
 import {
   SiHtml5, SiCss3, SiC, SiCplusplus, SiPython, SiJavascript, SiReact, SiRust,
@@ -22,18 +23,27 @@ import { FaJava, FaAws, FaFire, FaCloud } from "react-icons/fa"
 // Skill Card Component
 function SkillCard({ skill, specialized = false }) {
   return (
-    <div
-      className={`group relative flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-300 cursor-pointer hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black ${specialized ? 'md:col-span-1' : ''
-        }`}
-      role="button"
-      tabIndex={0}
-      aria-label={`${skill.name} technology`}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-        }
-      }}
+    <ClickSpark
+      sparkColor={skill.color}
+      sparkSize={8}
+      sparkRadius={12}
+      sparkCount={6}
+      duration={400}
+      easing="ease-out"
+      extraScale={1.0}
     >
+      <div
+        className={`group relative flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-300 cursor-pointer hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black overflow-hidden ${specialized ? 'md:col-span-1' : ''
+          }`}
+        role="button"
+        tabIndex={0}
+        aria-label={`${skill.name} technology`}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+          }
+        }}
+      >
       <div
         className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg transition-all duration-300 group-hover:scale-110"
         style={{
@@ -53,8 +63,12 @@ function SkillCard({ skill, specialized = false }) {
         {skill.name}
       </span>
 
-
-    </div>
+        {/* Glare effect */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+        </div>
+      </div>
+    </ClickSpark>
   )
 }
 
@@ -79,7 +93,16 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-zinc-900 transition-all duration-500 ease-in-out dark:bg-black dark:text-zinc-100">
+    <ClickSpark
+      sparkColor="#ffffff"
+      sparkSize={8}
+      sparkRadius={15}
+      sparkCount={6}
+      duration={400}
+      easing="ease-out"
+      extraScale={1.0}
+    >
+      <div className="min-h-screen bg-white text-zinc-900 transition-all duration-500 ease-in-out dark:bg-black dark:text-zinc-100">
       {/* Header */}
       <header className="container mx-auto px-4 py-8 flex justify-center items-center animate-fade-in">
         <Button
@@ -99,12 +122,24 @@ export default function Page() {
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20 lg:space-y-24 text-center" role="main">
         {/* Hero Section */}
         <section className="space-y-6 animate-fade-in-up" aria-labelledby="hero-heading">
-          <h1
-            id="hero-heading"
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white leading-tight"
+          <ClickSpark
+            sparkColor="#ffffff"
+            sparkSize={12}
+            sparkRadius={20}
+            sparkCount={8}
+            duration={600}
+            easing="ease-out"
+            extraScale={1.2}
           >
-            Hi, I&apos;m Aditya.
-          </h1>
+            <h1
+              id="hero-heading"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight cursor-pointer relative"
+            >
+              <span className="shiny-text">
+                Hi, I&apos;m Aditya.
+              </span>
+            </h1>
+          </ClickSpark>
           <p className="text-lg sm:text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto px-4">
             Technical Lead at TekLingo
           </p>
@@ -319,7 +354,7 @@ export default function Page() {
           <h2 id="projects-heading" className="text-xl sm:text-2xl font-semibold text-zinc-900 dark:text-white">
             Projects
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr">
             {!showContent ? (
               Array.from({ length: 7 }).map((_, i) => (
                 <ProjectCardSkeleton key={i} />
@@ -362,20 +397,35 @@ export default function Page() {
                     "Hand gesture recognition system for controlling OS functions, including volume and media playback. Built using computer vision and machine learning to enable touchless interaction with system controls through real-time hand tracking and gesture classification.",
                 },
               ].map((project, index) => (
-                <Card
+                <ClickSpark
                   key={project.title}
-                  className="bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                  style={{ animationDelay: `${0.8 + index * 0.1}s` }}
+                  sparkColor="#ffffff"
+                  sparkSize={10}
+                  sparkRadius={15}
+                  sparkCount={8}
+                  duration={500}
+                  easing="ease-out"
+                  extraScale={1.1}
                 >
-                  <CardContent className="p-4 sm:p-6">
-                    <h3 className="text-base sm:text-lg font-medium text-white mb-2">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
-                      {project.description}
-                    </p>
-                  </CardContent>
-                </Card>
+                  <Card
+                    className="group relative bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden cursor-pointer h-full flex flex-col"
+                    style={{ animationDelay: `${0.8 + index * 0.1}s` }}
+                  >
+                    <CardContent className="p-4 sm:p-6 relative z-10 flex-1 flex flex-col">
+                      <h3 className="text-base sm:text-lg font-medium text-white mb-2 underline">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm sm:text-base text-zinc-400 leading-relaxed flex-1">
+                        {project.description}
+                      </p>
+                    </CardContent>
+
+                    {/* Glare effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                    </div>
+                  </Card>
+                </ClickSpark>
               ))
             )}
           </div>
@@ -415,5 +465,6 @@ export default function Page() {
         </section>
       </main>
     </div>
+    </ClickSpark>
   )
 }
