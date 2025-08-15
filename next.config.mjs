@@ -9,6 +9,7 @@ try {
 const nextConfig = {
   output: 'export',
   trailingSlash: true,
+  distDir: 'out',
   eslint: {
     ignoreDuringBuilds: true,
   },
