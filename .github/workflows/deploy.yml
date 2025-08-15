@@ -29,10 +29,14 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Add CNAME
+        run: echo "aditya-garud.me" > ./out/CNAME
+        
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-          external_repository: yashranaway/yashranaway.github.io
-          cname: aditya-garud.me
+          path: ./out
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
