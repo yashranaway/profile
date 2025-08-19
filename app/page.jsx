@@ -7,20 +7,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { useTheme } from "next-themes"
 import { Sun, Moon, Heart } from "lucide-react"
 import { useState, useEffect } from "react"
-import LoadingScreen from "@/components/LoadingScreen"
-import { SkillsSectionSkeleton, ProjectCardSkeleton } from "@/components/SkeletonCard"
+
+
 import ClickSpark from "@/components/ClickSpark"
 import TimeCounter from "@/components/TimeCounter"
-import {
-  SiHtml5, SiCss3, SiC, SiCplusplus, SiPython, SiJavascript, SiReact, SiRust,
-  SiTypescript, SiGo, SiBootstrap, SiNodedotjs, SiExpress,
-  SiTensorflow, SiPytorch, SiOpencv, SiMongodb, SiMysql, SiPostgresql, SiOracle,
-  SiHeroku, SiDocker, SiLinux, SiGit,
-  SiArduino, SiRaspberrypi, SiDiscord
-} from "react-icons/si"
-import { FaJava, FaAws, FaFire, FaCloud } from "react-icons/fa"
 
-// Skill Card Component
+
+// Clean Skill Card Component with modern skill-icons
 function SkillCard({ skill, specialized = false }) {
   return (
     <ClickSpark
@@ -33,7 +26,7 @@ function SkillCard({ skill, specialized = false }) {
       extraScale={1.0}
     >
       <div
-        className={`group relative flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-300 cursor-pointer hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black overflow-hidden ${specialized ? 'md:col-span-1' : ''
+        className={`group relative flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300 cursor-pointer hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black overflow-hidden shadow-sm hover:shadow-md ${specialized ? 'md:col-span-1' : ''
           }`}
         role="button"
         tabIndex={0}
@@ -44,53 +37,158 @@ function SkillCard({ skill, specialized = false }) {
           }
         }}
       >
-      <div
-        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg transition-all duration-300 group-hover:scale-110"
-        style={{
-          backgroundColor: `${skill.color}15`,
-        }}
-        aria-hidden="true"
-      >
-        <div
-          style={{
-            color: skill.color === '#000000' ? '#ffffff' : skill.color
-          }}
-        >
-          {skill.icon}
+        {/* Skill Icon using skill-icons */}
+        <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 transition-all duration-300 group-hover:scale-110">
+          <img
+            src={skill.iconUrl}
+            alt={`${skill.name} icon`}
+            className="w-full h-full object-contain transition-all duration-300 group-hover:drop-shadow-lg"
+            loading="lazy"
+          />
         </div>
-      </div>
-      <span className="text-xs sm:text-sm font-medium text-zinc-900 dark:text-white group-hover:text-white transition-colors duration-300 flex-1">
+
+        {/* Skill Name */}
+        <span className="text-xs sm:text-sm font-medium text-zinc-900 dark:text-white transition-colors duration-300 flex-1">
         {skill.name}
       </span>
 
-        {/* Glare effect */}
+        {/* Enhanced Glare effect */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-zinc-200/30 dark:via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
         </div>
       </div>
     </ClickSpark>
   )
 }
 
+// Organized skills data
+const skillsData = {
+  languages: [
+    { name: "C", iconUrl: "https://skillicons.dev/icons?i=c", color: "#A8B9CC" },
+    { name: "C++", iconUrl: "https://skillicons.dev/icons?i=cpp", color: "#00599C" },
+    { name: "Java", iconUrl: "https://skillicons.dev/icons?i=java", color: "#ED8B00" },
+    { name: "Python", iconUrl: "https://skillicons.dev/icons?i=python", color: "#3776AB" },
+    { name: "JavaScript", iconUrl: "https://skillicons.dev/icons?i=js", color: "#F7DF1E" },
+    { name: "TypeScript", iconUrl: "https://skillicons.dev/icons?i=ts", color: "#3178C6" },
+    { name: "Rust", iconUrl: "https://skillicons.dev/icons?i=rust", color: "#CE422B" },
+    { name: "Go", iconUrl: "https://skillicons.dev/icons?i=go", color: "#00ADD8" },
+  ],
+  frontend: [
+    { name: "HTML5", iconUrl: "https://skillicons.dev/icons?i=html", color: "#E34F26" },
+    { name: "CSS3", iconUrl: "https://skillicons.dev/icons?i=css", color: "#1572B6" },
+    { name: "Bootstrap", iconUrl: "https://skillicons.dev/icons?i=bootstrap", color: "#7952B3" },
+    { name: "React", iconUrl: "https://skillicons.dev/icons?i=react", color: "#61DAFB" },
+    { name: "Tailwind CSS", iconUrl: "https://skillicons.dev/icons?i=tailwind", color: "#38B2AC" },
+  ],
+  backend: [
+    { name: "Node.js", iconUrl: "https://skillicons.dev/icons?i=nodejs", color: "#339933" },
+    { name: "Express.js", iconUrl: "https://skillicons.dev/icons?i=express", color: "#68CC00" },
+    { name: "MongoDB", iconUrl: "https://skillicons.dev/icons?i=mongodb", color: "#47A248" },
+    { name: "MySQL", iconUrl: "https://skillicons.dev/icons?i=mysql", color: "#4479A1" },
+    { name: "PostgreSQL", iconUrl: "https://skillicons.dev/icons?i=postgresql", color: "#336791" },
+  ],
+  tools: [
+    { name: "Linux", iconUrl: "https://skillicons.dev/icons?i=linux", color: "#FCC624" },
+    { name: "Git", iconUrl: "https://skillicons.dev/icons?i=git", color: "#F05032" },
+    { name: "VS Code", iconUrl: "https://skillicons.dev/icons?i=vscode", color: "#007ACC" },
+    { name: "Docker", iconUrl: "https://skillicons.dev/icons?i=docker", color: "#2496ED" },
+    { name: "Firebase", iconUrl: "https://skillicons.dev/icons?i=firebase", color: "#FFCA28" },
+    { name: "AWS", iconUrl: "https://skillicons.dev/icons?i=aws", color: "#FF9900" },
+    { name: "Vercel", iconUrl: "https://skillicons.dev/icons?i=vercel", color: "#000000" },
+  ],
+  ai: [
+    { name: "TensorFlow", iconUrl: "https://skillicons.dev/icons?i=tensorflow", color: "#FF6F00" },
+    { name: "PyTorch", iconUrl: "https://skillicons.dev/icons?i=pytorch", color: "#EE4C2C" },
+    { name: "OpenCV", iconUrl: "https://skillicons.dev/icons?i=opencv", color: "#5C3EE8" },
+  ],
+  hardware: [
+    { name: "Arduino", iconUrl: "https://skillicons.dev/icons?i=arduino", color: "#00979D" },
+    { name: "IoT Programming", iconUrl: "https://skillicons.dev/icons?i=raspberrypi", color: "#A22846" },
+  ],
+  other: [
+    { name: "Discord Bot Dev", iconUrl: "https://skillicons.dev/icons?i=discord", color: "#5865F2" },
+  ]
+}
+
 export default function Page() {
   const { theme, setTheme } = useTheme()
-  const [isLoading, setIsLoading] = useState(true)
-  const [showContent, setShowContent] = useState(false)
+
+  // Global click handler for letter animations
+  const triggerRandomLetterEffect = () => {
+    const letters = document.querySelectorAll('.letter');
+    if (letters.length === 0) return;
+    
+    // Pick random letter
+    const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+    
+    // MASSIVE effects array - going absolutely crazy!
+    const effects = [
+      // Colors
+      'color-red', 'color-blue', 'color-green', 'color-purple', 'color-orange',
+      'color-pink', 'color-yellow', 'color-cyan', 'color-lime', 'color-indigo',
+      'color-teal', 'color-rose', 'color-amber', 'color-emerald', 'color-violet',
+      
+      // Scales
+      'scale-tiny', 'scale-small', 'scale-big', 'scale-huge', 'scale-crazy',
+      
+      // Rotations
+      'rotate-left', 'rotate-right', 'rotate-crazy', 'rotate-flip', 'rotate-spin',
+      
+      // Basic animations
+      'shake', 'bounce', 'wobble', 'flip', 'pulse-big', 'pulse-crazy',
+      
+      // Glow effects
+      'glow', 'glow-intense', 'glow-rainbow', 'neon-glow',
+      
+      // Rainbow and gradients
+      'rainbow', 'rainbow-fast', 'fire-gradient', 'ocean-gradient', 'sunset-gradient',
+      
+      // Crazy animations
+      'matrix-rain', 'glitch', 'elastic', 'jello', 'rubber', 'swing',
+      'tada', 'heartbeat', 'flash', 'zoom-in', 'zoom-out', 'roll-in',
+      'roll-out', 'fade-in-down', 'fade-in-up', 'slide-in', 'typewriter',
+      'lightning', 'earthquake', 'tornado', 'explode', 'implode',
+      
+      // 3D effects
+      'flip-x', 'flip-y', 'flip-z', 'rotate-3d', 'cube-flip', 'card-flip',
+      
+      // Particle effects
+      'sparkle', 'confetti', 'fireworks', 'snow', 'rain',
+      
+      // Distortion effects
+      'stretch-x', 'stretch-y', 'skew-left', 'skew-right', 'wave', 'ripple'
+    ];
+    
+    // Pick random effect
+    const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+    
+    // Apply effect
+    randomLetter.classList.add('letter-active', randomEffect);
+    
+    // Remove effect after 2-3 seconds
+    const duration = 2000 + Math.random() * 1000;
+    setTimeout(() => {
+      randomLetter.classList.remove('letter-active', randomEffect);
+    }, duration);
+  };
 
   useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setShowContent(true)
-    }, 2000)
+    // Global click listener - ANY click triggers letter animation
+    const handleGlobalClick = () => {
+      triggerRandomLetterEffect();
+    };
 
-    return () => clearTimeout(timer)
+    // Add click listener to document
+    document.addEventListener('click', handleGlobalClick);
+
+    return () => {
+      document.removeEventListener('click', handleGlobalClick);
+    };
   }, [])
 
 
 
-  if (isLoading) {
-    return <LoadingScreen onComplete={() => setIsLoading(false)} />
-  }
+
 
   return (
     <ClickSpark
@@ -102,14 +200,14 @@ export default function Page() {
       easing="ease-out"
       extraScale={1.0}
     >
-      <div className="min-h-screen bg-white text-zinc-900 transition-all duration-500 ease-in-out dark:bg-black dark:text-zinc-100">
+      <div className="min-h-screen bg-zinc-50 text-zinc-900 transition-all duration-500 ease-in-out dark:bg-zinc-900 dark:text-white">
       {/* Header */}
       <header className="container mx-auto px-4 py-8 flex justify-center items-center animate-fade-in">
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black"
+          className="rounded-full w-12 h-12 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-300"
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
         >
           <Sun className="h-6 w-6 rotate-0 scale-100 transition-all duration-500 ease-in-out dark:-rotate-90 dark:scale-0" />
@@ -119,7 +217,7 @@ export default function Page() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20 lg:space-y-24 text-center" role="main">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20 lg:space-y-24 max-w-4xl" role="main">
         {/* Hero Section */}
         <section className="space-y-6 animate-fade-in-up" aria-labelledby="hero-heading">
           <ClickSpark
@@ -133,336 +231,308 @@ export default function Page() {
           >
             <h1
               id="hero-heading"
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight cursor-pointer relative"
+              className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight cursor-pointer relative text-zinc-900 dark:text-white"
             >
-              <span className="shiny-text">
-                Hi, I&apos;m Aditya.
-              </span>
+              Hi, I&apos;m{" "}
+              <span className="interactive-name">
+                <span className="letter letter-a" data-letter="A">A</span>
+                <span className="letter letter-d1" data-letter="d">d</span>
+                <span className="letter letter-i" data-letter="i">i</span>
+                <span className="letter letter-t" data-letter="t">t</span>
+                <span className="letter letter-y" data-letter="y">y</span>
+                <span className="letter letter-a2" data-letter="a">a</span>
+              </span>.
             </h1>
           </ClickSpark>
-          <p className="text-lg sm:text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto px-4">
-            Technical Lead at TekLingo
-          </p>
-          <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto px-4">
+          
+          <div className="space-y-4 text-left max-w-3xl">
+            <p className="text-lg sm:text-xl md:text-2xl text-zinc-600 dark:text-zinc-400">
+               I've been Technical Lead for the club{" "}
+              <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>{" "}
+              for <TimeCounter startDate={new Date("2023-08-01")} />.
+            </p>
+          
+            
+            <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400">
             Studying at{" "}
             <a
               href="https://www.vupune.ac.in/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-900 dark:text-white hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded transition-all duration-300"
+                className="text-zinc-900 dark:text-white relative inline-block group"
               aria-label="Vishwakarma University website"
             >
-              Vishwakarma University
+                <span>Vishwakarma University</span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
             </a>{" "}
-            for <TimeCounter startDate={new Date("2023-08-01")} />
-          </p>
-          <a
-            href="https://coff.ee/yashranaway"
+              | Technical Lead at{" "}
+              <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>
+            </p>
+            
+            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400">
+              I live in Pune, Maharashtra. You can keep up with me on{" "}
+              <a
+                href="https://www.linkedin.com/in/aditya-garud-8b633a303"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-900 dark:text-white relative inline-block group"
+                aria-label="Connect with me on LinkedIn"
+              >
+                <span>LinkedIn</span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+              </a>{" "}
+              or{" "}
+              <a
+                href="https://github.com/yashranaway"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-700 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:bg-zinc-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black"
-            aria-label="Buy me a coffee on Ko-fi"
-          >
-            <Heart className="h-5 w-5 text-red-500" aria-hidden="true" />
-            <span>Buy me a coffee</span>
-          </a>
+                className="text-zinc-900 dark:text-white relative inline-block group"
+                aria-label="View my GitHub profile"
+              >
+                <span>GitHub</span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+              </a>.
+            </p>
+          </div>
         </section>
 
         {/* Skills Section */}
         <section className="space-y-8 sm:space-y-12 relative" aria-labelledby="skills-heading">
-          {!showContent ? (
-            <SkillsSectionSkeleton />
-          ) : (
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
 
-              <div className="relative mb-12">
-                <h2
-                  id="skills-heading"
-                  className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white text-center mb-6"
-                >
-                  Technical Arsenal
-                </h2>
-                <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 text-center max-w-2xl mx-auto px-4">
-                  A comprehensive toolkit spanning multiple domains - from low-level systems programming to cloud-native applications and AI/ML solutions.
-                </p>
-              </div>
-
-              {/* Top Row - Programming & Frameworks */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12">
-                {/* Programming Languages */}
-                <div className="space-y-6 relative">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-white dark:bg-white rounded-full"></div>
-                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">Programming Languages</h3>
-                    <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent"></div>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                    {[
-                      { name: "C", icon: <SiC className="w-6 h-6" />, color: "#A8B9CC" },
-                      { name: "C++", icon: <SiCplusplus className="w-6 h-6" />, color: "#00599C" },
-                      { name: "Java", icon: <FaJava className="w-6 h-6" />, color: "#ED8B00" },
-                      { name: "Python", icon: <SiPython className="w-6 h-6" />, color: "#3776AB" },
-                      { name: "JavaScript", icon: <SiJavascript className="w-6 h-6" />, color: "#F7DF1E" },
-                      { name: "TypeScript", icon: <SiTypescript className="w-6 h-6" />, color: "#3178C6" },
-                      { name: "Rust", icon: <SiRust className="w-6 h-6" />, color: "#CE422B" },
-                      { name: "Go", icon: <SiGo className="w-6 h-6" />, color: "#00ADD8" },
-                    ].map((skill) => (
-                      <SkillCard key={skill.name} skill={skill} />
-                    ))}
+              <div className="space-y-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
+                  <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">TekLingo Club</h3>
+                  <div className="md:col-span-2">
+                    <p className="text-lg text-zinc-600 dark:text-zinc-400">Technical Lead</p>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-500">Present</p>
                   </div>
                 </div>
 
-                {/* Frameworks & Libraries */}
-                <div className="space-y-6 relative">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-white dark:bg-white rounded-full"></div>
-                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">Frameworks & Libraries</h3>
-                    <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent"></div>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                    {[
-                      { name: "HTML5", icon: <SiHtml5 className="w-6 h-6" />, color: "#E34F26" },
-                      { name: "CSS3", icon: <SiCss3 className="w-6 h-6" />, color: "#1572B6" },
-                      { name: "Bootstrap", icon: <SiBootstrap className="w-6 h-6" />, color: "#7952B3" },
-                      { name: "React", icon: <SiReact className="w-6 h-6" />, color: "#61DAFB" },
-                      { name: "Node.js", icon: <SiNodedotjs className="w-6 h-6" />, color: "#339933" },
-                      { name: "Express.js", icon: <SiExpress className="w-6 h-6" />, color: "#68CC00" },
-                      { name: "TensorFlow", icon: <SiTensorflow className="w-6 h-6" />, color: "#FF6F00" },
-                      { name: "PyTorch", icon: <SiPytorch className="w-6 h-6" />, color: "#EE4C2C" },
-                      { name: "OpenCV", icon: <SiOpencv className="w-6 h-6" />, color: "#5C3EE8" },
-                      { name: "scikit-learn", icon: <SiPython className="w-6 h-6" />, color: "#F7931E" },
-                    ].map((skill) => (
-                      <SkillCard key={skill.name} skill={skill} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Middle Row - Databases & Cloud */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12">
-                {/* Databases */}
-                <div className="space-y-6 relative">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-white dark:bg-white rounded-full"></div>
-                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">Databases</h3>
-                    <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent"></div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
-                    {[
-                      { name: "MongoDB", icon: <SiMongodb className="w-6 h-6" />, color: "#47A248" },
-                      { name: "MySQL", icon: <SiMysql className="w-6 h-6" />, color: "#4479A1" },
-                      { name: "PostgreSQL", icon: <SiPostgresql className="w-6 h-6" />, color: "#336791" },
-                    ].map((skill) => (
-                      <SkillCard key={skill.name} skill={skill} />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Cloud & Deployment */}
-                <div className="space-y-6 relative">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-white dark:bg-white rounded-full"></div>
-                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">Cloud & Deployment</h3>
-                    <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent"></div>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                    {[
-                      { name: "Firebase", icon: <FaFire className="w-6 h-6" />, color: "#FFCA28" },
-                      { name: "Heroku", icon: <SiHeroku className="w-6 h-6" />, color: "#430098" },
-                      { name: "Docker", icon: <SiDocker className="w-6 h-6" />, color: "#2496ED" },
-                      { name: "AWS", icon: <FaAws className="w-6 h-6" />, color: "#FF9900" },
-                      { name: "Google Cloud", icon: <FaCloud className="w-6 h-6" />, color: "#4285F4" },
-                      { name: "Oracle Cloud", icon: <SiOracle className="w-6 h-6" />, color: "#F80000" },
-                    ].map((skill) => (
-                      <SkillCard key={skill.name} skill={skill} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom Row - Tools & Specialized */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                {/* Tools & Platforms */}
-                <div className="space-y-6 relative">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-white dark:bg-white rounded-full"></div>
-                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">Tools & Platforms</h3>
-                    <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent"></div>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-4">
-                    {[
-                      { name: "Linux", icon: <SiLinux className="w-6 h-6" />, color: "#FCC624" },
-                      { name: "Git", icon: <SiGit className="w-6 h-6" />, color: "#F05032" },
-                      { name: "Arduino", icon: <SiArduino className="w-6 h-6" />, color: "#00979D" },
-                      { name: "Raspberry Pi", icon: <SiRaspberrypi className="w-6 h-6" />, color: "#A22846" },
-                    ].map((skill) => (
-                      <SkillCard key={skill.name} skill={skill} />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Specialized Skills */}
-                <div className="space-y-6 relative">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-white dark:bg-white rounded-full"></div>
-                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">Specialized Skills</h3>
-                    <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent"></div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
-                    {[
-                      { name: "Discord Bot Dev", icon: <SiDiscord className="w-6 h-6" />, color: "#5865F2" },
-                      { name: "IoT Programming", icon: <SiArduino className="w-6 h-6" />, color: "#00979D" },
-                    ].map((skill) => (
-                      <SkillCard key={skill.name} skill={skill} specialized={true} />
-                    ))}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
+                  <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Visionary Club</h3>
+                  <div className="md:col-span-2">
+                    <p className="text-lg text-zinc-600 dark:text-zinc-400">Technical Team Member</p>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-500">2023-2024</p>
                   </div>
                 </div>
               </div>
             </div>
-          )}
+          )
         </section>
 
-        {/* Experience Section */}
-        <section className="space-y-6 sm:space-y-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }} aria-labelledby="experience-heading">
-          <h2 id="experience-heading" className="text-xl sm:text-2xl font-semibold text-zinc-900 dark:text-white">
-            PREVIOUSLY
+        {/* Technical Skills Section */}
+        <section className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <h2 className="text-2xl sm:text-3xl font-medium text-zinc-900 dark:text-white">
+            Technical Arsenal
           </h2>
-          <div className="space-y-6 sm:space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl bg-white/5 dark:bg-white/5 border border-white/10 dark:border-white/10 hover:bg-white/10 dark:hover:bg-white/10 transition-all duration-300">
-              <h3 className="text-lg sm:text-xl font-medium text-zinc-900 dark:text-white md:text-right">
-                TekLingo Club
-              </h3>
-              <div className="md:col-span-2 md:text-left">
-                <p className="text-base sm:text-lg text-zinc-400">Technical Lead</p>
-                <p className="text-sm text-zinc-500">Present</p>
+          
+          {/* Programming Languages */}
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Programming Languages</h3>
+              <div className="md:col-span-2">
+                <div className="flex flex-wrap gap-3">
+                  {skillsData.languages.map((skill) => (
+                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
+                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                  </div>
+                  ))}
+                </div>
+                  </div>
+                </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Frontend Development</h3>
+              <div className="md:col-span-2">
+                <div className="flex flex-wrap gap-3">
+                  {skillsData.frontend.map((skill) => (
+                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
+                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                  </div>
+                  ))}
+                </div>
+                </div>
+              </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Backend & Databases</h3>
+              <div className="md:col-span-2">
+                <div className="flex flex-wrap gap-3">
+                  {skillsData.backend.map((skill) => (
+                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
+                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                  </div>
+                  ))}
+                </div>
+                  </div>
+                </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">AI & Machine Learning</h3>
+              <div className="md:col-span-2">
+                <div className="flex flex-wrap gap-3">
+                  {skillsData.ai.map((skill) => (
+                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
+                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                  </div>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl bg-white/5 dark:bg-white/5 border border-white/10 dark:border-white/10 hover:bg-white/10 dark:hover:bg-white/10 transition-all duration-300">
-              <h3 className="text-lg sm:text-xl font-medium text-zinc-900 dark:text-white md:text-right">
-                Visionary Club
-              </h3>
-              <div className="md:col-span-2 md:text-left">
-                <p className="text-base sm:text-lg text-zinc-400">Technical Team Member</p>
-                <p className="text-sm text-zinc-500">2023-2024</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">DevOps & Tools</h3>
+              <div className="md:col-span-2">
+                <div className="flex flex-wrap gap-3">
+                  {skillsData.tools.map((skill) => (
+                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
+                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Specialized Skills</h3>
+              <div className="md:col-span-2">
+                <div className="flex flex-wrap gap-3">
+                  {[...skillsData.hardware, ...skillsData.other].map((skill) => (
+                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
+                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Projects Section */}
-        <section className="space-y-6 sm:space-y-8 animate-fade-in-up" style={{ animationDelay: '0.6s' }} aria-labelledby="projects-heading">
-          <h2 id="projects-heading" className="text-xl sm:text-2xl font-semibold text-zinc-900 dark:text-white">
+        <section className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          <h2 className="text-2xl sm:text-3xl font-medium text-zinc-900 dark:text-white">
             Projects
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr">
-            {!showContent ? (
-              Array.from({ length: 7 }).map((_, i) => (
-                <ProjectCardSkeleton key={i} />
-              ))
-            ) : (
-              [
+          <div className="space-y-12">
+            {[
                 {
                   title: "Automated Chapter Segmentation for Live News Streams",
-                  description:
-                    "Developed an AI-powered system to automatically segment YouTube live news streams into chapters by detecting topic shifts, context changes, and advertisement breaks in real-time. Implemented real-time transcription using Whisper-based models, combined with NLP for topic segmentation, enabling precise start and end timestamps for improved content navigation, highlight extraction, and personalized content delivery.",
+                description: "Developed an AI-powered system to automatically segment YouTube live news streams into chapters by detecting topic shifts, context changes, and advertisement breaks in real-time. Implemented real-time transcription using Whisper-based models, combined with NLP for topic segmentation, enabling precise start and end timestamps for improved content navigation, highlight extraction, and personalized content delivery.",
                 },
                 {
                   title: "YODHA",
-                  description:
-                    "Developing an image recognition model to identify images in low-light conditions for improved clarity.",
+                description: "Developing an image recognition model to identify images in low-light conditions for improved clarity.",
                 },
                 {
                   title: "Automated Traffic Management System",
-                  description:
-                    "ATMS (Automated Traffic Management System) is an intelligent, AI-powered traffic control platform designed to optimize vehicle flow at busy intersections. Built with real-time computer vision and dynamic signal control logic.",
+                description: "ATMS (Automated Traffic Management System) is an intelligent, AI-powered traffic control platform designed to optimize vehicle flow at busy intersections. Built with real-time computer vision and dynamic signal control logic.",
                 },
                 {
                   title: "Stock Management Using LSTM",
-                  description:
-                    "Built an LSTM model to predict stock prices and manage stock levels based on historical data.",
+                description: "Built an LSTM model to predict stock prices and manage stock levels based on historical data.",
                 },
                 {
                   title: "Discord Bot Management and Development",
-                  description:
-                    "Architected and deployed scalable Discord bots with advanced features including automated moderation, custom commands, database integration, and real-time analytics. Built using Discord.py with PostgreSQL backend, serving 10,000+ users across multiple servers.",
+                description: "Architected and deployed scalable Discord bots with advanced features including automated moderation, custom commands, database integration, and real-time analytics. Built using Discord.py with PostgreSQL backend, serving 10,000+ users across multiple servers.",
                 },
                 {
                   title: "Sidemen Among Us Stats Website",
-                  description:
-                    "Web-based statistics tracker for Sidemen's 'Among Us' gameplay, providing comprehensive analytics and performance metrics for one of YouTube's most popular gaming series.",
+                description: "Web-based statistics tracker for Sidemen's 'Among Us' gameplay, providing comprehensive analytics and performance metrics for one of YouTube's most popular gaming series.",
                 },
                 {
                   title: "Virtual Mouse Gesture Control",
-                  description:
-                    "Hand gesture recognition system for controlling OS functions, including volume and media playback. Built using computer vision and machine learning to enable touchless interaction with system controls through real-time hand tracking and gesture classification.",
+                description: "Hand gesture recognition system for controlling OS functions, including volume and media playback. Built using computer vision and machine learning to enable touchless interaction with system controls through real-time hand tracking and gesture classification.",
                 },
               ].map((project, index) => (
-                <ClickSpark
-                  key={project.title}
-                  sparkColor="#ffffff"
-                  sparkSize={10}
-                  sparkRadius={15}
-                  sparkCount={8}
-                  duration={500}
-                  easing="ease-out"
-                  extraScale={1.1}
-                >
-                  <Card
-                    className="group relative bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden cursor-pointer h-full flex flex-col"
-                    style={{ animationDelay: `${0.8 + index * 0.1}s` }}
-                  >
-                    <CardContent className="p-4 sm:p-6 relative z-10 flex-1 flex flex-col">
-                      <h3 className="text-base sm:text-lg font-medium text-white mb-2 underline">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm sm:text-base text-zinc-400 leading-relaxed flex-1">
-                        {project.description}
-                      </p>
-                    </CardContent>
-
-                    {/* Glare effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+              <div key={project.title} className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700 last:border-b-0">
+                <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">{project.title}</h3>
+                <div className="md:col-span-2">
+                  <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">{project.description}</p>
+                </div>
                     </div>
-                  </Card>
-                </ClickSpark>
-              ))
-            )}
+            ))}
           </div>
         </section>
 
         {/* Contact Section */}
-        <section className="space-y-4 sm:space-y-6 animate-fade-in-up" style={{ animationDelay: '1s' }} aria-labelledby="contact-heading">
-          <h2 id="contact-heading" className="text-xl sm:text-2xl font-semibold text-zinc-900 dark:text-white">
+        <section className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+          <h2 className="text-2xl sm:text-3xl font-medium text-zinc-900 dark:text-white">
             Get in touch
           </h2>
-          <p className="text-sm sm:text-base text-zinc-400 leading-relaxed px-4 max-w-2xl mx-auto">
-            Based in Pune, Maharashtra. Connect with me on{" "}
-            <Link
+          <div className="space-y-6">
+            <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              Based in Pune, Maharashtra. You can reach me at{" "}
+              <a
+                href="mailto:garudaditya079@gmail.com"
+                className="text-zinc-900 dark:text-white relative inline-block group"
+              >
+                <span>garudaditya079@gmail.com</span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+              </a>
+            </p>
+            
+            <div className="flex items-center gap-8">
+              <a
               href="https://www.linkedin.com/in/aditya-garud-8b633a303"
-              className="text-zinc-900 dark:text-white hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded transition-all duration-300"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-900 dark:text-white relative inline-block group"
               aria-label="Connect with me on LinkedIn"
             >
-              LinkedIn
-            </Link>{" "}
-            or{" "}
-            <Link
+                <span>LinkedIn</span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+              </a>
+              
+              <a
               href="https://github.com/yashranaway"
-              className="text-zinc-900 dark:text-white hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded transition-all duration-300"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-900 dark:text-white relative inline-block group"
               aria-label="View my GitHub profile"
             >
-              GitHub
-            </Link>{" "}
-            or email me at{" "}
+                <span>GitHub</span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+              </a>
+              
+              <a
+                href="https://coff.ee/yashranaway"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-900 dark:text-white relative inline-block group"
+                aria-label="Buy me a coffee"
+              >
+                <span>Buy me a coffee</span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Credit Section */}
+        <section className="text-center py-8 border-t border-zinc-200 dark:border-zinc-700">
+          <p className="text-sm text-zinc-500 dark:text-zinc-500 flex items-center justify-center gap-2">
+            <Heart className="w-4 h-4 text-red-400" />
+            Design inspired by{" "}
             <a
-              href="mailto:garudaditya079@gmail.com"
-              className="text-zinc-900 dark:text-white hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded transition-all duration-300"
-              aria-label="Send me an email"
+              href="https://x.com/maddiesimens"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-700 dark:text-zinc-300 relative inline-block group"
+              aria-label="Maddie Simens on Twitter"
             >
-              garudaditya079@gmail.com
+              <span>Maddie Simens</span>
+              <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
             </a>
           </p>
         </section>
+
       </main>
     </div>
     </ClickSpark>
