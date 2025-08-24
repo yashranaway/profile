@@ -11,6 +11,10 @@ import { useState, useEffect } from "react"
 
 import ClickSpark from "@/components/ClickSpark"
 import TimeCounter from "@/components/TimeCounter"
+import CodeHover from "@/components/CodeHover"
+import LinkPreview from "@/components/LinkPreview"
+import githubAvatar from "@/assets/githubphotu.jpg"
+import linkedinAvatar from "@/assets/linkedinphotu.jpg"
 
 
 // Clean Skill Card Component with modern skill-icons
@@ -79,6 +83,7 @@ const skillsData = {
     { name: "Bootstrap", iconUrl: "https://skillicons.dev/icons?i=bootstrap", color: "#7952B3" },
     { name: "React", iconUrl: "https://skillicons.dev/icons?i=react", color: "#61DAFB" },
     { name: "Tailwind CSS", iconUrl: "https://skillicons.dev/icons?i=tailwind", color: "#38B2AC" },
+    { name: "Next.js", iconUrl: "https://skillicons.dev/icons?i=nextjs", color: "#000000" },
   ],
   backend: [
     { name: "Node.js", iconUrl: "https://skillicons.dev/icons?i=nodejs", color: "#339933" },
@@ -86,6 +91,7 @@ const skillsData = {
     { name: "MongoDB", iconUrl: "https://skillicons.dev/icons?i=mongodb", color: "#47A248" },
     { name: "MySQL", iconUrl: "https://skillicons.dev/icons?i=mysql", color: "#4479A1" },
     { name: "PostgreSQL", iconUrl: "https://skillicons.dev/icons?i=postgresql", color: "#336791" },
+    { name: "Prisma", iconUrl: "https://skillicons.dev/icons?i=prisma", color: "#0C344B" },
   ],
   tools: [
     { name: "Linux", iconUrl: "https://skillicons.dev/icons?i=linux", color: "#FCC624" },
@@ -95,11 +101,14 @@ const skillsData = {
     { name: "Firebase", iconUrl: "https://skillicons.dev/icons?i=firebase", color: "#FFCA28" },
     { name: "AWS", iconUrl: "https://skillicons.dev/icons?i=aws", color: "#FF9900" },
     { name: "Vercel", iconUrl: "https://skillicons.dev/icons?i=vercel", color: "#000000" },
+    { name: "Apple", iconUrl: "https://skillicons.dev/icons?i=apple", color: "#A2AAAD" },
   ],
   ai: [
     { name: "TensorFlow", iconUrl: "https://skillicons.dev/icons?i=tensorflow", color: "#FF6F00" },
     { name: "PyTorch", iconUrl: "https://skillicons.dev/icons?i=pytorch", color: "#EE4C2C" },
     { name: "OpenCV", iconUrl: "https://skillicons.dev/icons?i=opencv", color: "#5C3EE8" },
+    { name: "scikit-learn", iconUrl: "https://skillicons.dev/icons?i=sklearn", color: "#F7931E" },
+    { name: "Transformers", iconUrl: "/icons/huggingface.png", color: "#FFCC4D" },
   ],
   hardware: [
     { name: "Arduino", iconUrl: "https://skillicons.dev/icons?i=arduino", color: "#00979D" },
@@ -107,6 +116,8 @@ const skillsData = {
   ],
   other: [
     { name: "Discord Bot Dev", iconUrl: "https://skillicons.dev/icons?i=discord", color: "#5865F2" },
+    { name: "Discord.js", iconUrl: "https://skillicons.dev/icons?i=discordjs", color: "#5865F2" },
+    { name: "Discord.py", iconUrl: "/icons/discordpy.png", color: "#3776AB" },
   ]
 }
 
@@ -121,7 +132,7 @@ export default function Page() {
     // Pick random letter
     const randomLetter = letters[Math.floor(Math.random() * letters.length)];
     
-    // MASSIVE effects array - going absolutely crazy!
+
     const effects = [
       // Colors
       'color-red', 'color-blue', 'color-green', 'color-purple', 'color-orange',
@@ -174,7 +185,10 @@ export default function Page() {
 
   useEffect(() => {
     // Global click listener - ANY click triggers letter animation
-    const handleGlobalClick = () => {
+    const handleGlobalClick = (e) => {
+      // Ignore clicks on elements marked to skip letter effects
+      const target = e.target;
+      if (target && target.closest && target.closest('[data-no-letter]')) return;
       triggerRandomLetterEffect();
     };
 
@@ -206,6 +220,7 @@ export default function Page() {
         <Button
           variant="ghost"
           size="icon"
+          data-no-letter
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           className="rounded-full w-12 h-12 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-300"
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
@@ -217,7 +232,7 @@ export default function Page() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20 lg:space-y-24 max-w-4xl" role="main">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20 lg:space-y-24 max-w-7xl" role="main">
         {/* Hero Section */}
         <section className="space-y-6 animate-fade-in-up" aria-labelledby="hero-heading">
           <ClickSpark
@@ -231,7 +246,7 @@ export default function Page() {
           >
             <h1
               id="hero-heading"
-              className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight cursor-pointer relative text-zinc-900 dark:text-white"
+              className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight cursor-pointer relative text-center text-zinc-900 dark:text-white"
             >
               Hi, I&apos;m{" "}
               <span className="interactive-name">
@@ -245,7 +260,7 @@ export default function Page() {
             </h1>
           </ClickSpark>
           
-          <div className="space-y-4 text-left max-w-3xl">
+          <div className="space-y-4 text-center max-w-3xl mx-auto">
             <p className="text-lg sm:text-xl md:text-2xl text-zinc-600 dark:text-zinc-400">
                I've been Technical Lead for the club{" "}
               <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>{" "}
@@ -271,153 +286,268 @@ export default function Page() {
             
             <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400">
               I live in Pune, Maharashtra. You can keep up with me on{" "}
-              <a
+              <LinkPreview
+                title="LinkedIn • Aditya Garud"
+                subtitle="Technical Lead • TekLingo"
                 href="https://www.linkedin.com/in/aditya-garud-8b633a303"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-900 dark:text-white relative inline-block group"
-                aria-label="Connect with me on LinkedIn"
+                avatar={linkedinAvatar}
               >
-                <span>LinkedIn</span>
-                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
-              </a>{" "}
+                <a
+                  href="https://www.linkedin.com/in/aditya-garud-8b633a303"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-zinc-900 dark:text-white relative inline-block group"
+                  aria-label="Connect with me on LinkedIn"
+                >
+                  <span>LinkedIn</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+                </a>
+              </LinkPreview>{" "}
               or{" "}
-              <a
+              <LinkPreview
+                title="GitHub • yashranaway"
+                subtitle="Open-source projects and profile"
                 href="https://github.com/yashranaway"
-            target="_blank"
-            rel="noopener noreferrer"
-                className="text-zinc-900 dark:text-white relative inline-block group"
-                aria-label="View my GitHub profile"
+                avatar={githubAvatar}
               >
-                <span>GitHub</span>
-                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
-              </a>.
+                <a
+                  href="https://github.com/yashranaway"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-zinc-900 dark:text-white relative inline-block group"
+                  aria-label="View my GitHub profile"
+                >
+                  <span>GitHub</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+                </a>
+              </LinkPreview>.
             </p>
           </div>
         </section>
 
-        {/* Skills Section */}
-        <section className="space-y-8 sm:space-y-12 relative" aria-labelledby="skills-heading">
-          <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-
-              <div className="space-y-12">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
-                  <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">TekLingo Club</h3>
-                  <div className="md:col-span-2">
-                    <p className="text-lg text-zinc-600 dark:text-zinc-400">Technical Lead</p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-500">Present</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
-                  <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Visionary Club</h3>
-                  <div className="md:col-span-2">
-                    <p className="text-lg text-zinc-600 dark:text-zinc-400">Technical Team Member</p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-500">2023-2024</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )
-        </section>
+        
 
         {/* Technical Skills Section */}
         <section className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          <h2 className="text-2xl sm:text-3xl font-medium text-zinc-900 dark:text-white">
+          <h2 className="text-2xl sm:text-3xl font-medium text-center text-zinc-900 dark:text-white">
             Technical Arsenal
-          </h2>
+         </h2>
           
           {/* Programming Languages */}
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
-              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Programming Languages</h3>
-              <div className="md:col-span-2">
-                <div className="flex flex-wrap gap-3">
-                  {skillsData.languages.map((skill) => (
-                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
-                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
-                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
-                  </div>
-                  ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 auto-rows-fr items-stretch">
+            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Programming Languages</h3>
+                <div className="flex flex-wrap gap-3 items-start w-full">
+                  {skillsData.languages.map((skill) => {
+                    const chip = (
+                      <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                        <img src={skill.iconSrc || skill.iconUrl} alt="" aria-hidden className="w-5 h-5" loading="lazy" />
+                        <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                      </div>
+                    )
+                    if (skill.name === 'C') {
+                      return (
+                        <CodeHover key={skill.name} lang="c">
+                          {chip}
+                        </CodeHover>
+                      )
+                    }
+                    const map = {
+                      'C++': 'cpp',
+                      'Java': 'java',
+                      'Python': 'python',
+                      'JavaScript': 'javascript',
+                      'TypeScript': 'typescript',
+                      'Rust': 'rust',
+                      'Go': 'go',
+                    }
+                    const langKey = map[skill.name]
+                    if (langKey) {
+                      return (
+                        <CodeHover key={skill.name} lang={langKey}>
+                          {chip}
+                        </CodeHover>
+                      )
+                    }
+                    return (
+                      <div key={skill.name}>
+                        {chip}
+                      </div>
+                    )
+                  })}
                 </div>
-                  </div>
-                </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
-              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Frontend Development</h3>
-              <div className="md:col-span-2">
-                <div className="flex flex-wrap gap-3">
-                  {skillsData.frontend.map((skill) => (
-                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
-                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
-                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
-                  </div>
-                  ))}
-                </div>
-                </div>
-              </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
-              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Backend & Databases</h3>
-              <div className="md:col-span-2">
-                <div className="flex flex-wrap gap-3">
-                  {skillsData.backend.map((skill) => (
-                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
-                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
-                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
-                  </div>
-                  ))}
-                </div>
-                  </div>
-                </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
-              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">AI & Machine Learning</h3>
-              <div className="md:col-span-2">
-                <div className="flex flex-wrap gap-3">
-                  {skillsData.ai.map((skill) => (
-                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
-                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
-                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
-                  </div>
-                  ))}
-                </div>
-              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700">
-              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">DevOps & Tools</h3>
-              <div className="md:col-span-2">
-                <div className="flex flex-wrap gap-3">
-                  {skillsData.tools.map((skill) => (
-                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
-                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
-                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
-                    </div>
-                  ))}
+            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Frontend Development</h3>
+                <div className="flex flex-wrap gap-3 items-start">
+                  {skillsData.frontend.map((skill) => {
+                    const chip = (
+                      <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                        <img src={skill.iconSrc || skill.iconUrl} alt="" aria-hidden className="w-5 h-5" loading="lazy" />
+                        <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                      </div>
+                    )
+                    const map = {
+                      'HTML5': 'html',
+                      'CSS3': 'css',
+                      'Bootstrap': 'bootstrap',
+                      'React': 'react',
+                      'Tailwind CSS': 'tailwind',
+                      'Next.js': 'nextjs',
+                    }
+                    const langKey = map[skill.name]
+                    if (langKey) {
+                      return (
+                        <CodeHover key={skill.name} lang={langKey}>
+                          {chip}
+                        </CodeHover>
+                      )
+                    }
+                    return (
+                      <div key={skill.name}>{chip}</div>
+                    )
+                  })}
                 </div>
-              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
-              <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">Specialized Skills</h3>
-              <div className="md:col-span-2">
-                <div className="flex flex-wrap gap-3">
-                  {[...skillsData.hardware, ...skillsData.other].map((skill) => (
-                    <div key={skill.name} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
-                      <img src={skill.iconUrl} alt={skill.name} className="w-5 h-5" loading="lazy" />
-                      <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
-                    </div>
-                  ))}
+            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Backend & Databases</h3>
+                <div className="flex flex-wrap gap-3 items-start">
+                  {skillsData.backend.map((skill) => {
+                    const chip = (
+                      <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                        <img src={skill.iconSrc || skill.iconUrl} alt="" aria-hidden className="w-5 h-5" loading="lazy" />
+                        <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                      </div>
+                    )
+                    const map = {
+                      'Node.js': 'node',
+                      'Express.js': 'express',
+                      'MongoDB': 'mongodb',
+                      'MySQL': 'mysql',
+                      'PostgreSQL': 'postgresql',
+                      'Prisma': 'prisma',
+                    }
+                    const langKey = map[skill.name]
+                    if (langKey) {
+                      return (
+                        <CodeHover key={skill.name} lang={langKey}>
+                          {chip}
+                        </CodeHover>
+                      )
+                    }
+                    return (
+                      <div key={skill.name}>{chip}</div>
+                    )
+                  })}
                 </div>
-              </div>
+            </div>
+
+            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white">AI & Machine Learning</h3>
+                <div className="flex flex-wrap gap-3 items-start">
+                  {skillsData.ai.map((skill) => {
+                    const chip = (
+                      <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                        <img src={skill.iconSrc || skill.iconUrl} alt="" aria-hidden className="w-5 h-5" loading="lazy" />
+                        <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                      </div>
+                    )
+                    const map = {
+                      'TensorFlow': 'tensorflow',
+                      'PyTorch': 'pytorch',
+                      'OpenCV': 'opencv',
+                      'scikit-learn': 'sklearn',
+                      'Transformers': 'transformers',
+                    }
+                    const langKey = map[skill.name]
+                    if (langKey) {
+                      return (
+                        <CodeHover key={skill.name} lang={langKey}>
+                          {chip}
+                        </CodeHover>
+                      )
+                    }
+                    return (
+                      <div key={skill.name}>{chip}</div>
+                    )
+                  })}
+                </div>
+            </div>
+
+            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white">DevOps & Tools</h3>
+                <div className="flex flex-wrap gap-3 items-start">
+                  {skillsData.tools.map((skill) => {
+                    const chip = (
+                      <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                        <img src={skill.iconSrc || skill.iconUrl} alt="" aria-hidden className="w-5 h-5" loading="lazy" />
+                        <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                      </div>
+                    )
+                    const map = {
+                      'Linux': 'linux',
+                      'Git': 'git',
+                      'VS Code': 'vscode',
+                      'Docker': 'docker',
+                      'Firebase': 'firebase',
+                      'AWS': 'aws',
+                      'Vercel': 'vercel',
+                      'Apple': 'apple',
+                    }
+                    const langKey = map[skill.name]
+                    if (langKey) {
+                      return (
+                        <CodeHover key={skill.name} lang={langKey}>
+                          {chip}
+                        </CodeHover>
+                      )
+                    }
+                    return (
+                      <div key={skill.name}>{chip}</div>
+                    )
+                  })}
+                </div>
+            </div>
+
+            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Specialized Skills</h3>
+                <div className="flex flex-wrap gap-3 items-start">
+                  {[...skillsData.hardware, ...skillsData.other].map((skill) => {
+                    const chip = (
+                      <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
+                        <img src={skill.iconSrc || skill.iconUrl} alt="" aria-hidden className="w-5 h-5" loading="lazy" />
+                        <span className="text-sm font-medium text-zinc-900 dark:text-white">{skill.name}</span>
+                      </div>
+                    )
+                    const map = {
+                      'Arduino': 'arduino',
+                      'IoT Programming': 'iot',
+                      'Discord Bot Dev': 'discord',
+                      'Discord.js': 'discordjs',
+                      'Discord.py': 'discordpy',
+                    }
+                    const langKey = map[skill.name]
+                    if (langKey) {
+                      return (
+                        <CodeHover key={skill.name} lang={langKey}>
+                          {chip}
+                        </CodeHover>
+                      )
+                    }
+                    return (
+                      <div key={skill.name}>{chip}</div>
+                    )
+                  })}
+                </div>
             </div>
           </div>
         </section>
 
         {/* Projects Section */}
         <section className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-          <h2 className="text-2xl sm:text-3xl font-medium text-zinc-900 dark:text-white">
+          <h2 className="text-2xl sm:text-3xl text-center font-medium text-zinc-900 dark:text-white">
             Projects
           </h2>
           <div className="space-y-12">
@@ -479,27 +609,43 @@ export default function Page() {
             </p>
             
             <div className="flex items-center gap-8">
-              <a
-              href="https://www.linkedin.com/in/aditya-garud-8b633a303"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-900 dark:text-white relative inline-block group"
-              aria-label="Connect with me on LinkedIn"
-            >
-                <span>LinkedIn</span>
-                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
-              </a>
+              <LinkPreview
+                title="LinkedIn • Aditya Garud"
+                subtitle="Technical Lead • TekLingo"
+                href="https://www.linkedin.com/in/aditya-garud-8b633a303"
+                avatar={linkedinAvatar}
+                position="bottom"
+              >
+                <a
+                  href="https://www.linkedin.com/in/aditya-garud-8b633a303"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-zinc-900 dark:text-white relative inline-block group"
+                aria-label="Connect with me on LinkedIn"
+              >
+                  <span>LinkedIn</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+                </a>
+              </LinkPreview>
               
-              <a
-              href="https://github.com/yashranaway"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-900 dark:text-white relative inline-block group"
-              aria-label="View my GitHub profile"
-            >
-                <span>GitHub</span>
-                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
-              </a>
+              <LinkPreview
+                title="GitHub • yashranaway"
+                subtitle="Open-source projects and profile"
+                href="https://github.com/yashranaway"
+                avatar={githubAvatar}
+                position="bottom"
+              >
+                <a
+                  href="https://github.com/yashranaway"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-zinc-900 dark:text-white relative inline-block group"
+                aria-label="View my GitHub profile"
+              >
+                  <span>GitHub</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+                </a>
+              </LinkPreview>
               
               <a
                 href="https://coff.ee/yashranaway"
