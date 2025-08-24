@@ -645,7 +645,7 @@ export default function CodeHover({
         <div className={`absolute ${posClasses} z-50`} aria-hidden="true">
           <div className="w-[340px] max-w-[90vw] rounded-lg border border-zinc-700 bg-zinc-900/95 shadow-xl backdrop-blur px-4 py-3 animate-fade-in-up">
             <div className="text-xs text-zinc-400 mb-2 font-mono">{label} • {statusText}</div>
-            <pre className="text-[12px] leading-5 text-zinc-200 font-mono whitespace-pre-wrap">
+            <pre className="text-[12px] leading-5 text-zinc-200 font-mono whitespace-pre-wrap break-all max-h-[40vh] overflow-auto pr-1">
               {rendered}
               {count < fullLength && <span className="inline-block w-2 h-4 bg-zinc-200 align-baseline ml-0.5 animate-pulse" />}
             </pre>

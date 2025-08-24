@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 import { Card, CardContent } from "@/components/ui/card"
 import { useTheme } from "next-themes"
-import { Sun, Moon, Heart } from "lucide-react"
+import { Sun, Moon, Heart, Download, X } from "lucide-react"
 import { useState, useEffect } from "react"
 
 
@@ -123,6 +123,8 @@ const skillsData = {
 
 export default function Page() {
   const { theme, setTheme } = useTheme()
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [showResume, setShowResume] = useState(false)
 
   // Global click handler for letter animations
   const triggerRandomLetterEffect = () => {
@@ -198,6 +200,23 @@ export default function Page() {
     return () => {
       document.removeEventListener('click', handleGlobalClick);
     };
+  }, [])
+
+  // Scroll progress bar logic
+  useEffect(() => {
+    const calcProgress = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0
+      setScrollProgress(pct)
+    }
+    calcProgress()
+    window.addEventListener('scroll', calcProgress, { passive: true })
+    window.addEventListener('resize', calcProgress)
+    return () => {
+      window.removeEventListener('scroll', calcProgress)
+      window.removeEventListener('resize', calcProgress)
+    }
   }, [])
 
 
@@ -325,7 +344,6 @@ export default function Page() {
           </div>
         </section>
 
-        
 
         {/* Technical Skills Section */}
         <section className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
@@ -542,8 +560,16 @@ export default function Page() {
                   })}
                 </div>
             </div>
+
           </div>
         </section>
+
+        {/* Resume button below contact */}
+        <div className="flex justify-center">
+          <Button onClick={() => setShowResume(true)} className="px-5 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all" data-no-letter>
+            Resume
+          </Button>
+        </div>
 
         {/* Projects Section */}
         <section className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
@@ -657,6 +683,18 @@ export default function Page() {
                 <span>Buy me a coffee</span>
                 <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
               </a>
+
+              {/* Inline Resume trigger */}
+              <button
+                type="button"
+                onClick={() => setShowResume(true)}
+                className="text-zinc-900 dark:text-white relative inline-block group"
+                data-no-letter
+                aria-label="View Resume"
+              >
+                <span>Resume</span>
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
+              </button>
             </div>
           </div>
         </section>
@@ -680,6 +718,36 @@ export default function Page() {
         </section>
 
       </main>
+
+      {/* Resume Modal */}
+      {showResume && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4" role="dialog" aria-modal="true">
+          <div className="w-[min(95vw,1000px)] h-[min(90vh,900px)] bg-white dark:bg-zinc-900 rounded-lg shadow-2xl border border-zinc-200 dark:border-zinc-700 flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-700">
+              <h3 className="text-sm font-medium text-zinc-900 dark:text-white">Resume — Aditya Garud</h3>
+              <div className="flex items-center gap-2">
+                <a href="/AdityaGarudResume.pdf" download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white" data-no-letter>
+                  <Download className="w-4 h-4" />
+                  <span className="text-sm">Download</span>
+                </a>
+                <button onClick={() => setShowResume(false)} className="p-1 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Close resume" data-no-letter>
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 bg-zinc-50 dark:bg-zinc-950">
+              <iframe src="/AdityaGarudResume.pdf#view=FitH" className="w-full h-full" title="Resume PDF" />
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Bottom scroll progress bar */}
+      <div className="fixed bottom-0 left-0 right-0 h-1.5 bg-transparent z-50" aria-hidden="true">
+        <div
+          className="h-full bg-zinc-900 dark:bg-white transition-[width] duration-150 ease-linear"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
     </div>
     </ClickSpark>
   )
