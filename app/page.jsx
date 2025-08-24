@@ -563,14 +563,6 @@ export default function Page() {
 
           </div>
         </section>
-
-        {/* Resume button below contact */}
-        <div className="flex justify-center">
-          <Button onClick={() => setShowResume(true)} className="px-5 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all" data-no-letter>
-            Resume
-          </Button>
-        </div>
-
         {/* Projects Section */}
         <section className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
           <h2 className="text-2xl sm:text-3xl text-center font-medium text-zinc-900 dark:text-white">
