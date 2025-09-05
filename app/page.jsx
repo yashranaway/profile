@@ -125,6 +125,12 @@ export default function Page() {
   const { theme, setTheme } = useTheme()
   const [scrollProgress, setScrollProgress] = useState(0)
   const [showResume, setShowResume] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Prevent hydration mismatch by only rendering theme-dependent content after mount
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Global click handler for letter animations
   const triggerRandomLetterEffect = () => {
@@ -242,7 +248,7 @@ export default function Page() {
           data-no-letter
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           className="rounded-full w-12 h-12 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-300"
-          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          aria-label={mounted ? `Switch to ${theme === "dark" ? "light" : "dark"} mode` : "Toggle theme"}
         >
           <Sun className="h-6 w-6 rotate-0 scale-100 transition-all duration-500 ease-in-out dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-6 w-6 rotate-90 scale-0 transition-all duration-500 ease-in-out dark:rotate-0 dark:scale-100" />
