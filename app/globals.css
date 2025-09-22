@@ -55,6 +55,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Improve mobile scrolling */
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -81,6 +83,20 @@
   .animate-shimmer {
     animation: shimmer 2s ease-in-out infinite;
     background-size: 200% 100%;
+  }
+}
+
+/* Add mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Reduce animations on mobile for better performance */
+  .animate-fade-in-up {
+    animation-duration: 0.4s;
+  }
+  
+  /* Optimize for touch targets */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 
@@ -659,8 +675,6 @@
   100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
 }
 
-
-
 /* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -686,4 +700,3 @@
     animation: none !important;
   }
 }
-

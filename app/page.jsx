@@ -241,17 +241,17 @@ export default function Page() {
     >
       <div className="min-h-screen bg-zinc-50 text-zinc-900 transition-all duration-500 ease-in-out dark:bg-zinc-900 dark:text-white">
       {/* Header */}
-      <header className="container mx-auto px-4 py-8 flex justify-center items-center animate-fade-in">
+      <header className="container mx-auto px-4 py-6 flex justify-center items-center animate-fade-in">
         <Button
           variant="ghost"
           size="icon"
           data-no-letter
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="rounded-full w-12 h-12 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-300"
+          className="rounded-full w-10 h-10 sm:w-12 sm:h-12 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-300"
           aria-label={mounted ? `Switch to ${theme === "dark" ? "light" : "dark"} mode` : "Toggle theme"}
         >
-          <Sun className="h-6 w-6 rotate-0 scale-100 transition-all duration-500 ease-in-out dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-6 w-6 rotate-90 scale-0 transition-all duration-500 ease-in-out dark:rotate-0 dark:scale-100" />
+          <Sun className="h-5 w-5 sm:h-6 sm:w-6 rotate-0 scale-100 transition-all duration-500 ease-in-out dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-5 w-5 sm:h-6 sm:w-6 rotate-90 scale-0 transition-all duration-500 ease-in-out dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </header>
@@ -271,7 +271,7 @@ export default function Page() {
           >
             <h1
               id="hero-heading"
-              className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight cursor-pointer relative text-center text-zinc-900 dark:text-white"
+              className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-light leading-tight cursor-pointer relative text-center text-zinc-900 dark:text-white px-4"
             >
               Hi, I&apos;m{" "}
               <span className="interactive-name">
@@ -285,15 +285,15 @@ export default function Page() {
             </h1>
           </ClickSpark>
           
-          <div className="space-y-4 text-center max-w-3xl mx-auto">
-            <p className="text-lg sm:text-xl md:text-2xl text-zinc-600 dark:text-zinc-400">
+          <div className="space-y-4 text-center max-w-3xl mx-auto px-4">
+            <p className="text-base sm:text-xl md:text-2xl text-zinc-600 dark:text-zinc-400">
                I've been Technical Lead for the club{" "}
               <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>{" "}
               for <TimeCounter startDate={new Date("2023-08-01")} />.
             </p>
           
             
-            <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400">
+            <p className="text-sm sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400">
             Studying at{" "}
             <a
               href="https://www.vupune.ac.in/"
@@ -309,7 +309,7 @@ export default function Page() {
               <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>
             </p>
             
-            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400">
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
               I live in Pune, Maharashtra. You can keep up with me on{" "}
               <LinkPreview
                 title="LinkedIn • Aditya Garud"
@@ -358,10 +358,10 @@ export default function Page() {
          </h2>
           
           {/* Programming Languages */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 auto-rows-fr items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr items-stretch">
             <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
               <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Programming Languages</h3>
-                <div className="flex flex-wrap gap-3 items-start w-full">
+                <div className="flex flex-wrap gap-2 items-start w-full">
                   {skillsData.languages.map((skill) => {
                     const chip = (
                       <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
@@ -404,7 +404,7 @@ export default function Page() {
 
             <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
               <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Frontend Development</h3>
-                <div className="flex flex-wrap gap-3 items-start">
+                <div className="flex flex-wrap gap-2 items-start">
                   {skillsData.frontend.map((skill) => {
                     const chip = (
                       <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
@@ -437,7 +437,7 @@ export default function Page() {
 
             <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
               <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Backend & Databases</h3>
-                <div className="flex flex-wrap gap-3 items-start">
+                <div className="flex flex-wrap gap-2 items-start">
                   {skillsData.backend.map((skill) => {
                     const chip = (
                       <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
@@ -470,7 +470,7 @@ export default function Page() {
 
             <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
               <h3 className="text-lg font-medium text-zinc-900 dark:text-white">AI & Machine Learning</h3>
-                <div className="flex flex-wrap gap-3 items-start">
+                <div className="flex flex-wrap gap-2 items-start">
                   {skillsData.ai.map((skill) => {
                     const chip = (
                       <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
@@ -502,7 +502,7 @@ export default function Page() {
 
             <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
               <h3 className="text-lg font-medium text-zinc-900 dark:text-white">DevOps & Tools</h3>
-                <div className="flex flex-wrap gap-3 items-start">
+                <div className="flex flex-wrap gap-2 items-start">
                   {skillsData.tools.map((skill) => {
                     const chip = (
                       <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
@@ -537,7 +537,7 @@ export default function Page() {
 
             <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 h-full flex flex-col gap-4">
               <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Specialized Skills</h3>
-                <div className="flex flex-wrap gap-3 items-start">
+                <div className="flex flex-wrap gap-2 items-start">
                   {[...skillsData.hardware, ...skillsData.other].map((skill) => {
                     const chip = (
                       <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300">
@@ -574,7 +574,7 @@ export default function Page() {
           <h2 className="text-2xl sm:text-3xl text-center font-medium text-zinc-900 dark:text-white">
             Projects
           </h2>
-          <div className="space-y-12">
+          <div className="space-y-8">
             {[
                 {
                   title: "Automated Chapter Segmentation for Live News Streams",
@@ -605,10 +605,10 @@ export default function Page() {
                 description: "Hand gesture recognition system for controlling OS functions, including volume and media playback. Built using computer vision and machine learning to enable touchless interaction with system controls through real-time hand tracking and gesture classification.",
                 },
               ].map((project, index) => (
-              <div key={project.title} className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-zinc-200 dark:border-zinc-700 last:border-b-0">
-                <h3 className="text-lg font-medium text-zinc-900 dark:text-white md:text-right">{project.title}</h3>
-                <div className="md:col-span-2">
-                  <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">{project.description}</p>
+              <div key={project.title} className="grid grid-cols-1 gap-4 py-6 border-b border-zinc-200 dark:border-zinc-700 last:border-b-0">
+                <h3 className="text-lg font-medium text-zinc-900 dark:text-white">{project.title}</h3>
+                <div>
+                  <p className="text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">{project.description}</p>
                 </div>
                     </div>
             ))}
@@ -621,7 +621,7 @@ export default function Page() {
             Get in touch
           </h2>
           <div className="space-y-6">
-            <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
               Based in Pune, Maharashtra. You can reach me at{" "}
               <a
                 href="mailto:garudaditya079@gmail.com"
@@ -632,7 +632,7 @@ export default function Page() {
               </a>
             </p>
             
-            <div className="flex items-center gap-8">
+            <div className="flex flex-wrap items-center gap-6">
               <LinkPreview
                 title="LinkedIn • Aditya Garud"
                 subtitle="Technical Lead • TekLingo"
@@ -720,21 +720,21 @@ export default function Page() {
       {/* Resume Modal */}
       {showResume && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4" role="dialog" aria-modal="true">
-          <div className="w-[min(95vw,1000px)] h-[min(90vh,900px)] bg-white dark:bg-zinc-900 rounded-lg shadow-2xl border border-zinc-200 dark:border-zinc-700 flex flex-col overflow-hidden">
+          <div className="w-[min(95vw,1000px)] h-[min(90vh,900px)] max-h-[90vh] bg-white dark:bg-zinc-900 rounded-lg shadow-2xl border border-zinc-200 dark:border-zinc-700 flex flex-col overflow-hidden">
             <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-700">
               <h3 className="text-sm font-medium text-zinc-900 dark:text-white">Resume — Aditya Garud</h3>
               <div className="flex items-center gap-2">
-                <a href="/AdityaGarudResume.pdf" download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white" data-no-letter>
+                <a href="/AdityaGarudResume.pdf" download target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white text-sm" data-no-letter>
                   <Download className="w-4 h-4" />
-                  <span className="text-sm">Download</span>
+                  <span className="hidden sm:inline">Download</span>
                 </a>
                 <button onClick={() => setShowResume(false)} className="p-1 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Close resume" data-no-letter>
                   <X className="w-4 h-4" />
                 </button>
               </div>
             </div>
-            <div className="flex-1 bg-zinc-50 dark:bg-zinc-950">
-              <iframe src="/AdityaGarudResume.pdf#view=FitH" className="w-full h-full" title="Resume PDF" />
+            <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 overflow-auto">
+              <iframe src="/AdityaGarudResume.pdf#view=FitH" className="w-full h-full min-h-[500px]" title="Resume PDF" />
             </div>
           </div>
         </div>

@@ -15,6 +15,12 @@ export default function CodeHover({
   const [count, setCount] = useState(0)
   const [showOutput, setShowOutput] = useState(false)
   const timerRef = useRef(null)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+
+  // Detect touch devices
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  }, [])
 
   const PRESETS = {
     c: {
@@ -633,11 +639,19 @@ export default function CodeHover({
 
   const statusText = count >= fullLength ? 'done' : 'typing…'
 
+  // For touch devices, we might want to show the popup on click instead of hover
+  const handleInteraction = () => {
+    if (isTouchDevice) {
+      setHovering(!hovering)
+    }
+  }
+
   return (
     <div
       className="relative group inline-flex"
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
+      onMouseEnter={() => !isTouchDevice && setHovering(true)}
+      onMouseLeave={() => !isTouchDevice && setHovering(false)}
+      onClick={handleInteraction}
       data-no-letter
     >
       {children}
@@ -651,7 +665,7 @@ export default function CodeHover({
             </pre>
             <div className="mt-3 border-t border-zinc-700 pt-2">
               <div className="text-[11px] text-zinc-400 font-mono mb-1">Output</div>
-              <div className="text-[12px] font-mono text-emerald-300">
+              <div className="text-[12px] font-mono text-emerald-300 break-words">
                 {showOutput ? outputText : <span className="text-zinc-500">(waiting...)</span>}
               </div>
             </div>

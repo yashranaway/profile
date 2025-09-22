@@ -26,11 +26,10 @@ const TimeCounter = ({ startDate }) => {
   }, [startDate])
 
   return (
-    <span aria-live="polite" className="font-mono text-sm whitespace-nowrap">
+    <span aria-live="polite" className="font-mono text-sm whitespace-normal break-words">
       {timeElapsed}
     </span>
   )
 }
 
 export default TimeCounter
-
