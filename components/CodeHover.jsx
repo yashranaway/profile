@@ -16,10 +16,19 @@ export default function CodeHover({
   const [showOutput, setShowOutput] = useState(false)
   const timerRef = useRef(null)
   const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [mobileMode, setMobileMode] = useState(false)
+  const triggerRef = useRef(null)
+  const popupRef = useRef(null)
+  const [posStyle, setPosStyle] = useState({ top: 0, left: 0 })
+  const idRef = useRef(Symbol('codehover'))
 
   // Detect touch devices
   useEffect(() => {
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    const computeMobile = () => setMobileMode(window.innerWidth < 640 || ('ontouchstart' in window || navigator.maxTouchPoints > 0))
+    computeMobile()
+    window.addEventListener('resize', computeMobile)
+    return () => window.removeEventListener('resize', computeMobile)
   }, [])
 
   const PRESETS = {
@@ -639,15 +648,64 @@ export default function CodeHover({
 
   const statusText = count >= fullLength ? 'done' : 'typing…'
 
-  // For touch devices, we might want to show the popup on click instead of hover
+  // For touch devices, show the popup on click instead of hover
   const handleInteraction = () => {
     if (isTouchDevice) {
-      setHovering(!hovering)
+      const next = !hovering
+      if (next) {
+        // Tell other instances to close
+        window.dispatchEvent(new CustomEvent('codehover-open', { detail: idRef.current }))
+      }
+      setHovering(next)
     }
   }
 
+  // Close this instance when another opens
+  useEffect(() => {
+    const onOpen = (e) => {
+      if (e.detail !== idRef.current) setHovering(false)
+    }
+    window.addEventListener('codehover-open', onOpen)
+    return () => window.removeEventListener('codehover-open', onOpen)
+  }, [])
+
+  // When visible on mobile, compute fixed coordinates near the trigger
+  useEffect(() => {
+    if (!hovering || !mobileMode) return
+    const compute = () => {
+      const el = triggerRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      const gap = 12
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const margin = 8
+      const w = Math.min(popupRef.current?.offsetWidth || 340, Math.floor(vw * 0.92))
+      const h = Math.min(popupRef.current?.offsetHeight || 240, Math.floor(vh * 0.6))
+      const cx = rect.left + rect.width / 2
+      const clampedLeft = Math.min(Math.max(cx - w / 2, margin), vw - margin - w)
+      let top = rect.bottom + gap; // Prefer below
+      if (top > vh - margin - h) {
+        top = rect.top - gap - h; // Flip to above if no space
+      }
+      top = Math.min(Math.max(top, margin), vh - margin - h)
+      setPosStyle({ top, left: clampedLeft })
+    }
+    compute()
+    // Recompute on next frame to capture measured popup sizes
+    const raf = requestAnimationFrame(compute)
+    window.addEventListener('scroll', compute, { passive: true })
+    window.addEventListener('resize', compute)
+    return () => {
+      window.removeEventListener('scroll', compute)
+      window.removeEventListener('resize', compute)
+      cancelAnimationFrame(raf)
+    }
+  }, [hovering, mobileMode, position])
+
   return (
     <div
+      ref={triggerRef}
       className="relative group inline-flex"
       onMouseEnter={() => !isTouchDevice && setHovering(true)}
       onMouseLeave={() => !isTouchDevice && setHovering(false)}
@@ -656,8 +714,14 @@ export default function CodeHover({
     >
       {children}
       {hovering && (
-        <div className={`absolute ${posClasses} z-50`} aria-hidden="true">
-          <div className="w-[340px] max-w-[90vw] rounded-lg border border-zinc-700 bg-zinc-900/95 shadow-xl backdrop-blur px-4 py-3 animate-fade-in-up">
+        <div
+          ref={popupRef}
+          className={`${mobileMode ? 'fixed' : 'absolute ' + posClasses} z-[60]`}
+          style={mobileMode ? { top: posStyle.top, left: posStyle.left } : undefined}
+          aria-hidden={!mobileMode}
+          role={mobileMode ? 'dialog' : undefined}
+        >
+          <div className="w-[340px] max-w-[92vw] sm:max-w-[90vw] rounded-lg border border-zinc-700 bg-zinc-900/95 shadow-xl backdrop-blur px-4 py-3 animate-fade-in-up">
             <div className="text-xs text-zinc-400 mb-2 font-mono">{label} • {statusText}</div>
             <pre className="text-[12px] leading-5 text-zinc-200 font-mono whitespace-pre-wrap break-all max-h-[40vh] overflow-auto pr-1">
               {rendered}
@@ -668,6 +732,9 @@ export default function CodeHover({
               <div className="text-[12px] font-mono text-emerald-300 break-words">
                 {showOutput ? outputText : <span className="text-zinc-500">(waiting...)</span>}
               </div>
+              {mobileMode && (
+                <div className="mt-2 text-[10px] text-zinc-500 font-mono text-center">Tap again to close</div>
+              )}
             </div>
           </div>
         </div>

@@ -1,24 +1,62 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 
 export default function LinkPreview({ children, title, subtitle, href, avatar, position = "top" }) {
   const [hovering, setHovering] = useState(false)
+  const triggerRef = useRef(null)
+  const popupRef = useRef(null)
+  const [posStyle, setPosStyle] = useState({ top: 0, left: 0 })
 
-  const posClasses = position === "top"
-    ? "bottom-full left-1/2 -translate-x-1/2 mb-3"
-    : "top-full left-1/2 -translate-x-1/2 mt-3"
+  // Compute fixed coordinates so the preview is portaled outside any <p>
+  useEffect(() => {
+    if (!hovering) return
+    const compute = () => {
+      const el = triggerRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      const popup = popupRef.current
+      const gap = 12 // space between trigger and tooltip
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const margin = 8
+      const w = Math.min(popup?.offsetWidth || 320, Math.floor(vw * 0.9))
+      const h = Math.min(popup?.offsetHeight || 200, Math.floor(vh * 0.5))
+      const cx = rect.left + rect.width / 2
+      const left = Math.min(Math.max(cx - w / 2, margin), vw - margin - w)
+      let top = rect.bottom + gap; // Prefer below
+      if (top > vh - margin - h) {
+        top = rect.top - gap - h; // Flip to above if no space
+      }
+      top = Math.min(Math.max(top, margin), vh - margin - h)
+      setPosStyle({ top, left })
+    }
+    compute()
+    window.addEventListener('scroll', compute, { passive: true })
+    window.addEventListener('resize', compute)
+    return () => {
+      window.removeEventListener('scroll', compute)
+      window.removeEventListener('resize', compute)
+    }
+  }, [hovering, position])
 
   return (
     <span
-      className="relative inline-flex"
+      ref={triggerRef}
+      className="inline-flex"
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       data-no-letter
     >
       {children}
-      {hovering && (
-        <div className={`absolute ${posClasses} z-50`} aria-hidden="true">
+      {hovering && createPortal(
+        <div
+          ref={popupRef}
+          className={`fixed z-50`}
+          style={{ top: posStyle.top, left: posStyle.left }}
+          aria-hidden
+        >
           <div className="w-[320px] max-w-[90vw] rounded-lg border border-zinc-700 bg-zinc-900/95 shadow-xl backdrop-blur px-4 py-3 animate-fade-in-up text-left">
             <div className="flex items-center gap-3">
               {avatar && (
@@ -35,7 +73,8 @@ export default function LinkPreview({ children, title, subtitle, href, avatar, p
             </div>
             <div className="mt-2 text-[11px] text-zinc-400 truncate">{href}</div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </span>
   )
