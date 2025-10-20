@@ -581,6 +581,16 @@ export default function Page() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-auto">
             {[
                 {
+                  title: "NetPulse Monitor",
+                  description: "A distributed uptime monitoring system leveraging blockchain and decentralized validators for reliable, tamper-proof website monitoring. Uses cryptographically verified independent validators incentivized through micropayments, eliminating single-provider dependency.",
+                  size: "large"
+                },
+                {
+                  title: "Code-Sync Review MCP",
+                  description: "A Model Context Protocol (MCP) worker providing comprehensive TypeScript/JavaScript code analysis. Integrates with AI assistants and development tools for intelligent code review, static analysis, and automated patch generation.",
+                  size: "large"
+                },
+                {
                   title: "Automated Chapter Segmentation for Live News Streams",
                   description: "Developed an AI-powered system to automatically segment YouTube live news streams into chapters by detecting topic shifts, context changes, and advertisement breaks in real-time. Implemented real-time transcription using Whisper-based models, combined with NLP for topic segmentation, enabling precise start and end timestamps for improved content navigation, highlight extraction, and personalized content delivery.",
                   size: "large"
