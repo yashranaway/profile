@@ -264,7 +264,7 @@ export default function Page() {
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20 lg:space-y-24 max-w-7xl relative z-50" role="main">
         {/* Hero Section */}
-        <section className="space-y-6 animate-fade-in-up flex flex-col items-center" aria-labelledby="hero-heading">
+        <section className="space-y-6 animate-fade-in-up flex flex-col items-center" aria-labelledby="hero-heading" itemScope itemType="https://schema.org/Person">
           <div className="flex items-start justify-center gap-8 w-full max-w-5xl">
             <div className="flex-1 space-y-6">
               <ClickSpark
@@ -281,7 +281,7 @@ export default function Page() {
                   className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-tight cursor-pointer relative text-zinc-900 dark:text-white"
                 >
                   Hi, I&apos;m{" "}
-                  <span className="interactive-name">
+                  <span className="interactive-name" itemProp="name">
                     <span className="letter letter-a" data-letter="A">A</span>
                     <span className="letter letter-d1" data-letter="d">d</span>
                     <span className="letter letter-i" data-letter="i">i</span>
@@ -311,11 +311,12 @@ export default function Page() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-zinc-900 dark:text-white font-medium hover:underline"
+                      itemProp="alumniOf"
                     >
                       Vishwakarma University
                     </a>{" "}
-                    | Technical Lead at{" "}
-                    <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>
+                    | <span itemProp="jobTitle">Technical Lead</span> at{" "}
+                    <span className="text-zinc-900 dark:text-white font-medium" itemProp="worksFor">TekLingo</span>
                   </p>
                   
                   <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400">

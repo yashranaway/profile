@@ -1,0 +1,21 @@
+{
+  "name": "Aditya Garud - Full Stack Developer",
+  "short_name": "Aditya Garud",
+  "description": "Full Stack Developer and Machine Learning Engineer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366F1",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
