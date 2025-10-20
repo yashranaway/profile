@@ -574,43 +574,65 @@ export default function Page() {
           <h2 className="text-2xl sm:text-3xl text-center font-medium text-zinc-900 dark:text-white">
             Projects
           </h2>
-          <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-auto">
             {[
                 {
                   title: "Automated Chapter Segmentation for Live News Streams",
-                description: "Developed an AI-powered system to automatically segment YouTube live news streams into chapters by detecting topic shifts, context changes, and advertisement breaks in real-time. Implemented real-time transcription using Whisper-based models, combined with NLP for topic segmentation, enabling precise start and end timestamps for improved content navigation, highlight extraction, and personalized content delivery.",
+                  description: "Developed an AI-powered system to automatically segment YouTube live news streams into chapters by detecting topic shifts, context changes, and advertisement breaks in real-time. Implemented real-time transcription using Whisper-based models, combined with NLP for topic segmentation, enabling precise start and end timestamps for improved content navigation, highlight extraction, and personalized content delivery.",
+                  size: "large" // spans 2 columns on larger screens
                 },
                 {
                   title: "YODHA",
-                description: "Developing an image recognition model to identify images in low-light conditions for improved clarity.",
+                  description: "Developing an image recognition model to identify images in low-light conditions for improved clarity.",
+                  size: "small"
                 },
                 {
                   title: "Automated Traffic Management System",
-                description: "ATMS (Automated Traffic Management System) is an intelligent, AI-powered traffic control platform designed to optimize vehicle flow at busy intersections. Built with real-time computer vision and dynamic signal control logic.",
+                  description: "ATMS (Automated Traffic Management System) is an intelligent, AI-powered traffic control platform designed to optimize vehicle flow at busy intersections. Built with real-time computer vision and dynamic signal control logic.",
+                  size: "medium"
                 },
                 {
                   title: "Stock Management Using LSTM",
-                description: "Built an LSTM model to predict stock prices and manage stock levels based on historical data.",
+                  description: "Built an LSTM model to predict stock prices and manage stock levels based on historical data.",
+                  size: "small"
                 },
                 {
                   title: "Discord Bot Management and Development",
-                description: "Architected and deployed scalable Discord bots with advanced features including automated moderation, custom commands, database integration, and real-time analytics. Built using Discord.py with PostgreSQL backend, serving 10,000+ users across multiple servers.",
+                  description: "Architected and deployed scalable Discord bots with advanced features including automated moderation, custom commands, database integration, and real-time analytics. Built using Discord.py with PostgreSQL backend, serving 10,000+ users across multiple servers.",
+                  size: "medium"
                 },
                 {
                   title: "Sidemen Among Us Stats Website",
-                description: "Web-based statistics tracker for Sidemen's 'Among Us' gameplay, providing comprehensive analytics and performance metrics for one of YouTube's most popular gaming series.",
+                  description: "Web-based statistics tracker for Sidemen's 'Among Us' gameplay, providing comprehensive analytics and performance metrics for one of YouTube's most popular gaming series.",
+                  size: "small"
                 },
                 {
                   title: "Virtual Mouse Gesture Control",
-                description: "Hand gesture recognition system for controlling OS functions, including volume and media playback. Built using computer vision and machine learning to enable touchless interaction with system controls through real-time hand tracking and gesture classification.",
+                  description: "Hand gesture recognition system for controlling OS functions, including volume and media playback. Built using computer vision and machine learning to enable touchless interaction with system controls through real-time hand tracking and gesture classification.",
+                  size: "medium"
                 },
               ].map((project, index) => (
-              <div key={project.title} className="grid grid-cols-1 gap-4 py-6 border-b border-zinc-200 dark:border-zinc-700 last:border-b-0">
-                <h3 className="text-lg font-medium text-zinc-900 dark:text-white">{project.title}</h3>
-                <div>
-                  <p className="text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">{project.description}</p>
+              <div 
+                key={project.title} 
+                className={`group relative p-6 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                  project.size === 'large' ? 'md:col-span-2 lg:row-span-2' : 
+                  project.size === 'medium' ? 'lg:col-span-2' : 
+                  ''
+                }`}
+              >
+                <div className="flex flex-col h-full gap-3">
+                  <h3 className="text-lg font-medium text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed flex-1">
+                    {project.description}
+                  </p>
                 </div>
-                    </div>
+                {/* Subtle gradient overlay on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 dark:from-blue-400/10 dark:to-purple-400/10 rounded-xl" />
+                </div>
+              </div>
             ))}
           </div>
         </section>
