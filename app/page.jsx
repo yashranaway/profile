@@ -588,7 +588,7 @@ export default function Page() {
                 {
                   title: "Code-Sync Review MCP",
                   description: "A Model Context Protocol (MCP) worker providing comprehensive TypeScript/JavaScript code analysis. Integrates with AI assistants and development tools for intelligent code review, static analysis, and automated patch generation.",
-                  size: "large"
+                  size: "medium"
                 },
                 {
                   title: "Automated Chapter Segmentation for Live News Streams",
@@ -598,7 +598,7 @@ export default function Page() {
                 {
                   title: "Discord Bot Management and Development",
                   description: "Architected and deployed scalable Discord bots with advanced features including automated moderation, custom commands, database integration, and real-time analytics. Built using Discord.py with PostgreSQL backend, serving 10,000+ users across multiple servers.",
-                  size: "large"
+                  size: "medium"
                 },
                 {
                   title: "Automated Traffic Management System",
