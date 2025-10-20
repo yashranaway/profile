@@ -6,27 +6,58 @@ const TimeCounter = ({ startDate }) => {
   useEffect(() => {
     const updateCounter = () => {
       const now = new Date()
-      const difference = now.getTime() - startDate.getTime()
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000)
-      const years = Math.floor(days / 365)
-      const remainingDays = days % 365
-
-      setTimeElapsed(
-        `${years} years, ${remainingDays} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`,
+      const birthDate = new Date(startDate)
+      
+      // Normalize birth date to start of day for accurate calculation
+      birthDate.setHours(0, 0, 0, 0)
+      
+      // Calculate whole years since birth
+      let years = now.getFullYear() - birthDate.getFullYear()
+      
+      // Create birthday date for current year at midnight
+      let lastBirthday = new Date(
+        now.getFullYear(),
+        birthDate.getMonth(),
+        birthDate.getDate(),
+        0, 0, 0, 0
       )
+      
+      // If birthday hasn't occurred yet this year, subtract 1 year and use last year's birthday
+      if (now < lastBirthday) {
+        years--
+        lastBirthday.setFullYear(now.getFullYear() - 1)
+      }
+      
+      // Calculate the next birthday
+      const nextBirthday = new Date(lastBirthday)
+      nextBirthday.setFullYear(nextBirthday.getFullYear() + 1)
+      
+      // Calculate milliseconds in this age year (accounts for leap years)
+      const millisecondsInYear = nextBirthday - lastBirthday
+      
+      // Calculate milliseconds elapsed since last birthday
+      const millisecondsElapsed = now - lastBirthday
+      
+      // Calculate fractional progress through current age year (0 to 1)
+      const yearProgress = millisecondsElapsed / millisecondsInYear
+      
+      // Combine whole years + fractional progress
+      const preciseAge = years + yearProgress
+      
+      setTimeElapsed(preciseAge.toFixed(9))
     }
     updateCounter()
-    const intervalId = setInterval(updateCounter, 1000)
+    const intervalId = setInterval(updateCounter, 100) // Update every 100ms for smooth animation
 
     return () => clearInterval(intervalId)
   }, [startDate])
 
   return (
-    <span aria-live="polite" className="font-mono text-sm whitespace-normal break-words">
+    <span 
+      aria-live="polite" 
+      className="font-mono text-base sm:text-xl md:text-2xl tabular-nums text-white dark:text-white transition-all duration-500 ease-out"
+      style={{ willChange: 'contents' }}
+    >
       {timeElapsed}
     </span>
   )

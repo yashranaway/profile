@@ -13,8 +13,10 @@ import ClickSpark from "@/components/ClickSpark"
 import TimeCounter from "@/components/TimeCounter"
 import CodeHover from "@/components/CodeHover"
 import LinkPreview from "@/components/LinkPreview"
+import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect"
 import githubAvatar from "@/assets/githubphotu.jpg"
 import linkedinAvatar from "@/assets/linkedinphotu.jpg"
+import logoImage from "@/assets/image.png"
 
 
 // Clean Skill Card Component with modern skill-icons
@@ -126,6 +128,7 @@ export default function Page() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [showResume, setShowResume] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [hoveredProject, setHoveredProject] = useState(null)
 
   // Prevent hydration mismatch by only rendering theme-dependent content after mount
   useEffect(() => {
@@ -239,9 +242,11 @@ export default function Page() {
       easing="ease-out"
       extraScale={1.0}
     >
-      <div className="min-h-screen bg-zinc-50 text-zinc-900 transition-all duration-500 ease-in-out dark:bg-zinc-900 dark:text-white">
+      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white relative">
+        {/* Interactive Ripple Grid Background */}
+        <BackgroundRippleEffect rows={20} cols={40} cellSize={50} />
       {/* Header */}
-      <header className="container mx-auto px-4 py-6 flex justify-center items-center animate-fade-in">
+      <header className="container mx-auto px-4 py-6 flex justify-center items-center animate-fade-in relative z-50">
         <Button
           variant="ghost"
           size="icon"
@@ -257,96 +262,94 @@ export default function Page() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20 lg:space-y-24 max-w-7xl" role="main">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20 lg:space-y-24 max-w-7xl relative z-50" role="main">
         {/* Hero Section */}
-        <section className="space-y-6 animate-fade-in-up" aria-labelledby="hero-heading">
-          <ClickSpark
-            sparkColor="#ffffff"
-            sparkSize={12}
-            sparkRadius={20}
-            sparkCount={8}
-            duration={600}
-            easing="ease-out"
-            extraScale={1.2}
-          >
-            <h1
-              id="hero-heading"
-              className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-light leading-tight cursor-pointer relative text-center text-zinc-900 dark:text-white px-4"
-            >
-              Hi, I&apos;m{" "}
-              <span className="interactive-name">
-                <span className="letter letter-a" data-letter="A">A</span>
-                <span className="letter letter-d1" data-letter="d">d</span>
-                <span className="letter letter-i" data-letter="i">i</span>
-                <span className="letter letter-t" data-letter="t">t</span>
-                <span className="letter letter-y" data-letter="y">y</span>
-                <span className="letter letter-a2" data-letter="a">a</span>
-              </span>.
-            </h1>
-          </ClickSpark>
-          
-          <div className="space-y-4 text-center max-w-3xl mx-auto px-4">
-            <p className="text-base sm:text-xl md:text-2xl text-zinc-600 dark:text-zinc-400">
-               I've been Technical Lead for the club{" "}
-              <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>{" "}
-              for <TimeCounter startDate={new Date("2023-08-01")} />.
-            </p>
-          
-            
-            <p className="text-sm sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400">
-            Studying at{" "}
-            <a
-              href="https://www.vupune.ac.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-                className="text-zinc-900 dark:text-white relative inline-block group"
-              aria-label="Vishwakarma University website"
-            >
-                <span>Vishwakarma University</span>
-                <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
-            </a>{" "}
-              | Technical Lead at{" "}
-              <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>
-            </p>
-            
-            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
-              I live in Pune, Maharashtra. You can keep up with me on{" "}
-              <LinkPreview
-                title="LinkedIn • Aditya Garud"
-                subtitle="Technical Lead • TekLingo"
-                href="https://www.linkedin.com/in/aditya-garud-8b633a303"
-                avatar={linkedinAvatar}
+        <section className="space-y-6 animate-fade-in-up flex flex-col items-center" aria-labelledby="hero-heading">
+          <div className="flex items-start justify-center gap-8 w-full max-w-5xl">
+            <div className="flex-1 space-y-6">
+              <ClickSpark
+                sparkColor="#ffffff"
+                sparkSize={12}
+                sparkRadius={20}
+                sparkCount={8}
+                duration={600}
+                easing="ease-out"
+                extraScale={1.2}
               >
-                <a
-                  href="https://www.linkedin.com/in/aditya-garud-8b633a303"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-zinc-900 dark:text-white relative inline-block group"
-                  aria-label="Connect with me on LinkedIn"
+                <h1
+                  id="hero-heading"
+                  className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-tight cursor-pointer relative text-zinc-900 dark:text-white"
                 >
-                  <span>LinkedIn</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
-                </a>
-              </LinkPreview>{" "}
-              or{" "}
-              <LinkPreview
-                title="GitHub • yashranaway"
-                subtitle="Open-source projects and profile"
-                href="https://github.com/yashranaway"
-                avatar={githubAvatar}
-              >
-                <a
-                  href="https://github.com/yashranaway"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-zinc-900 dark:text-white relative inline-block group"
-                  aria-label="View my GitHub profile"
-                >
-                  <span>GitHub</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-zinc-400 dark:bg-zinc-500 group-hover:w-full transition-all duration-300 ease-out"></span>
-                </a>
-              </LinkPreview>.
-            </p>
+                  Hi, I&apos;m{" "}
+                  <span className="interactive-name">
+                    <span className="letter letter-a" data-letter="A">A</span>
+                    <span className="letter letter-d1" data-letter="d">d</span>
+                    <span className="letter letter-i" data-letter="i">i</span>
+                    <span className="letter letter-t" data-letter="t">t</span>
+                    <span className="letter letter-y" data-letter="y">y</span>
+                    <span className="letter letter-a2" data-letter="a">a</span>
+                  </span>.
+                </h1>
+              </ClickSpark>
+              
+              <div className="space-y-6 max-w-3xl">
+                <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400 -mt-2">
+                  been here for <TimeCounter startDate={new Date("2005-01-03")} /> years
+                </p>
+          
+                <div className="space-y-3">
+                  <h2 className="text-lg sm:text-xl font-medium text-zinc-900 dark:text-white">about;</h2>
+                  
+                  <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400">
+                    i like technology and Machine Learning, cool stuff
+                  </p>
+                  
+                  <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400">
+                    Studying at{" "}
+                    <a
+                      href="https://www.vupune.ac.in/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-900 dark:text-white font-medium hover:underline"
+                    >
+                      Vishwakarma University
+                    </a>{" "}
+                    | Technical Lead at{" "}
+                    <span className="text-zinc-900 dark:text-white font-medium">TekLingo</span>
+                  </p>
+                  
+                  <p className="text-base sm:text-lg md:text-xl text-zinc-600 dark:text-zinc-400">
+                    I live in Pune, Maharashtra. You can keep up with me on{" "}
+                    <a
+                      href="https://www.linkedin.com/in/aditya-garud-8b633a303"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-900 dark:text-white font-medium hover:underline"
+                    >
+                      LinkedIn
+                    </a>{" "}
+                    or{" "}
+                    <a
+                      href="https://github.com/yashranaway"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-900 dark:text-white font-medium hover:underline"
+                    >
+                      GitHub
+                    </a>.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Logo */}
+            <div className="hidden lg:block">
+              <img 
+                src={logoImage.src} 
+                alt="Logo" 
+                className="w-72 h-72 xl:w-80 xl:h-80 rounded-lg object-cover border-2 border-zinc-200 dark:border-zinc-700 shadow-xl"
+              />
+            </div>
           </div>
         </section>
 
@@ -579,12 +582,12 @@ export default function Page() {
                 {
                   title: "Automated Chapter Segmentation for Live News Streams",
                   description: "Developed an AI-powered system to automatically segment YouTube live news streams into chapters by detecting topic shifts, context changes, and advertisement breaks in real-time. Implemented real-time transcription using Whisper-based models, combined with NLP for topic segmentation, enabling precise start and end timestamps for improved content navigation, highlight extraction, and personalized content delivery.",
-                  size: "large" // spans 2 columns on larger screens
+                  size: "large"
                 },
                 {
-                  title: "YODHA",
-                  description: "Developing an image recognition model to identify images in low-light conditions for improved clarity.",
-                  size: "small"
+                  title: "Discord Bot Management and Development",
+                  description: "Architected and deployed scalable Discord bots with advanced features including automated moderation, custom commands, database integration, and real-time analytics. Built using Discord.py with PostgreSQL backend, serving 10,000+ users across multiple servers.",
+                  size: "large"
                 },
                 {
                   title: "Automated Traffic Management System",
@@ -592,45 +595,45 @@ export default function Page() {
                   size: "medium"
                 },
                 {
-                  title: "Stock Management Using LSTM",
-                  description: "Built an LSTM model to predict stock prices and manage stock levels based on historical data.",
+                  title: "Virtual Mouse Gesture Control",
+                  description: "Hand gesture recognition system for controlling OS functions, including volume and media playback. Built using computer vision and machine learning to enable touchless interaction with system controls through real-time hand tracking and gesture classification.",
+                  size: "medium"
+                },
+                {
+                  title: "YODHA",
+                  description: "Developing an image recognition model to identify images in low-light conditions for improved clarity.",
                   size: "small"
                 },
                 {
-                  title: "Discord Bot Management and Development",
-                  description: "Architected and deployed scalable Discord bots with advanced features including automated moderation, custom commands, database integration, and real-time analytics. Built using Discord.py with PostgreSQL backend, serving 10,000+ users across multiple servers.",
-                  size: "medium"
+                  title: "Stock Management Using LSTM",
+                  description: "Built an LSTM model to predict stock prices and manage stock levels based on historical data.",
+                  size: "small"
                 },
                 {
                   title: "Sidemen Among Us Stats Website",
                   description: "Web-based statistics tracker for Sidemen's 'Among Us' gameplay, providing comprehensive analytics and performance metrics for one of YouTube's most popular gaming series.",
                   size: "small"
                 },
-                {
-                  title: "Virtual Mouse Gesture Control",
-                  description: "Hand gesture recognition system for controlling OS functions, including volume and media playback. Built using computer vision and machine learning to enable touchless interaction with system controls through real-time hand tracking and gesture classification.",
-                  size: "medium"
-                },
               ].map((project, index) => (
               <div 
-                key={project.title} 
-                className={`group relative p-6 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
-                  project.size === 'large' ? 'md:col-span-2 lg:row-span-2' : 
-                  project.size === 'medium' ? 'lg:col-span-2' : 
+                key={project.title}
+                onMouseEnter={() => setHoveredProject(index)}
+                onMouseLeave={() => setHoveredProject(null)}
+                className={`relative p-6 rounded-xl bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-zinc-200 dark:border-zinc-700 transition-all duration-300 ${
+                  project.size === 'large' ? 'md:col-span-2 lg:col-span-2' : 
+                  project.size === 'medium' ? 'md:col-span-2 lg:col-span-1' : 
                   ''
+                } ${
+                  hoveredProject !== null && hoveredProject !== index ? 'blur-sm scale-[0.98] opacity-60' : 'shadow-lg'
                 }`}
               >
                 <div className="flex flex-col h-full gap-3">
-                  <h3 className="text-lg font-medium text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-lg font-medium text-zinc-900 dark:text-white transition-colors">
                     {project.title}
                   </h3>
                   <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed flex-1">
                     {project.description}
                   </p>
-                </div>
-                {/* Subtle gradient overlay on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 dark:from-blue-400/10 dark:to-purple-400/10 rounded-xl" />
                 </div>
               </div>
             ))}

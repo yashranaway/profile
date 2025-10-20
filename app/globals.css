@@ -24,6 +24,11 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    
+    /* Neutral colors for grid background */
+    --color-neutral-100: rgba(212, 212, 212, 0.3);
+    --color-neutral-300: rgba(161, 161, 170, 0.4);
+    --color-neutral-500: #737373;
   }
 
   .dark {
@@ -46,6 +51,11 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    
+    /* Neutral colors for grid background in dark mode */
+    --color-neutral-700: rgba(115, 115, 115, 0.4);
+    --color-neutral-800: rgba(64, 64, 64, 0.3);
+    --color-neutral-900: rgba(38, 38, 38, 0.3);
   }
 }
 
@@ -83,6 +93,21 @@
   .animate-shimmer {
     animation: shimmer 2s ease-in-out infinite;
     background-size: 200% 100%;
+  }
+
+  /* Grid Background Pattern */
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(to right, rgba(161, 161, 170, 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(161, 161, 170, 0.15) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .dark .bg-grid-pattern {
+    background-image: 
+      linear-gradient(to right, rgba(161, 161, 170, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(161, 161, 170, 0.1) 1px, transparent 1px);
+    background-size: 80px 80px;
   }
 }
 
@@ -673,6 +698,26 @@
   0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
   70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
   100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+/* Cell ripple animation for background effect */
+@keyframes cell-ripple {
+  0% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+}
+
+.animate-cell-ripple {
+  animation: cell-ripple var(--duration, 800ms) ease-out var(--delay, 0ms);
 }
 
 /* Reduced motion for accessibility */
